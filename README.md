@@ -1,6 +1,7 @@
 
 # DevOps Project Overview
-### "Your Code, Our Pipeline."
+###  "From Code Chaos to Deployment Symphony"
+
 
 ## Problem Statement
 The problem this DevOps project aims to address is the need for a streamlined and automated software deployment pipeline. In today's software development landscape, delivering high-quality software rapidly is essential. Manual deployments are error-prone and time-consuming, which can impact both developers and end-users. Automating the deployment process is the key to solving this problem.
