@@ -35,4 +35,8 @@ This pipeline does not merely respond to code changes; it is a proactive process
 
 ## Pipeline Design
 
+### High Level
+
+![High Level Pipeline](https://media.github.ncsu.edu/user/26488/files/bc26c9ab-1e09-4d06-9e99-50cd25b7a0e1)
+
 
