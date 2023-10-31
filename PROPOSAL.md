@@ -44,10 +44,10 @@ This pipeline does not merely respond to code changes; it is a proactive process
 
 #### Part-1
 
-![Flow 1](https://media.github.ncsu.edu/user/26488/files/94c62250-1933-491a-a4c3-1205b15704c5)
+![Flow 1](https://media.github.ncsu.edu/user/26488/files/94c62250-1933-491a-a4c3-1205b15704c5 =100x40)
 
 
 #### Part-2
 
-![Flow 2](https://media.github.ncsu.edu/user/26488/files/172fb72f-797e-4742-8318-0a6e85811f2c)
+![Flow 2](https://media.github.ncsu.edu/user/26488/files/172fb72f-797e-4742-8318-0a6e85811f2c =100x40)
 
