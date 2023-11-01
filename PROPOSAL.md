@@ -33,7 +33,7 @@ This pipeline does not merely respond to code changes; it is a proactive process
 Use Case: PR Merged to Main Branch Triggers Series of Automated and Manual Deployments to Production.
 1 Preconditions
    The Node application has been successfully built.
-   All tests have passed.
+   All unit tests have passed.
    Code coverage is greater than 90%.
    The mailer has been configured to deliver emails in case of failures.
    The deployment machine(s) (VCL) has been configured and provisioned for passwordless SSH access.
@@ -43,9 +43,9 @@ Use Case: PR Merged to Main Branch Triggers Series of Automated and Manual Deplo
    The developer initiates the pipeline by creating a PR to the main branch [S1].
    The PR is approved and merged by the Release Engineer [S2].
    Tests are run [S3].
-   The Docker image is deployed to the Development Environment [S4].
-   The Docker image is deployed to the Testing Environment [S5].
-   The image is deployed to the Baking Environment [S6].
+   The application is deployed to the Development Environment [S4].
+   The application is deployed to the QA Environment and UAT Environment[S5].
+   The image is promoted to the Baking Environment [S6].
    Performance is monitored in both the Production and Baking Environments [S7].
    If performance is similar, deployment to Production is triggered [S8].
 3 Subflows
