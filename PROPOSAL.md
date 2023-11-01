@@ -40,7 +40,14 @@ Use Case: PR Merged to Main Branch Triggers Series of Automated and Manual Deplo
    The Ansible inventory file is updated with the list of hosts.
    The Self-Hosted GitHub Actions system has been provisioned.
 2 Main Flow
-   Developer will initiate the pipeline by initiating a PR to the release branch[S1]. PR has to be approved by the Release Engineer (assumed to be another user).[S2]. Tests runs. [S3]. Tests return results [S4]
+   The developer initiates the pipeline by creating a PR to the main branch [S1].
+   The PR is approved and merged by the Release Engineer [S2].
+   Tests are run [S3].
+   The Docker image is deployed to the Development Environment [S4].
+   The Docker image is deployed to the Testing Environment [S5].
+   The image is deployed to the Baking Environment [S6].
+   Performance is monitored in both the Production and Baking Environments [S7].
+   If performance is similar, deployment to Production is triggered [S8].
 3 Subflows
   [S1] User provides PR message and requests appropriate reviewers (including the Release Engineer).
   [S2] PR approved by Release Engineer.
