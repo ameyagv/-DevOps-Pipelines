@@ -32,9 +32,13 @@ This pipeline does not merely respond to code changes; it is a proactive process
 ```
 Use Case: PR Merged to Main Branch Triggers Series of Automated and Manual Deployments to Production.
 1 Preconditions
-   Deployment machine provisioned.
-   Self-Hosted GitHub Actions system provisioned.
-   A release branch exists.
+   The Node application has been successfully built.
+   All tests have passed.
+   Code coverage is greater than 90%.
+   The mailer has been configured to deliver emails in case of failures.
+   The deployment machine(s) (VCL) has been configured and provisioned for passwordless SSH access.
+   The Ansible inventory file is updated with the list of hosts.
+   The Self-Hosted GitHub Actions system has been provisioned.
 2 Main Flow
    Developer will initiate the pipeline by initiating a PR to the release branch[S1]. PR has to be approved by the Release Engineer (assumed to be another user).[S2]. Tests runs. [S3]. Tests return results [S4]
 3 Subflows
