@@ -18,7 +18,7 @@ Our continuous deployment pipeline automates the deployment process of the code 
 
 ## Pipeline Design
 
-![Pipeline Design](pipeline_design.png)
+![High Level Pipeline](https://media.github.ncsu.edu/user/26488/files/bc26c9ab-1e09-4d06-9e99-50cd25b7a0e1)
 
 ### Architecture Components
 Our DevOps pipeline consists of the following components:
