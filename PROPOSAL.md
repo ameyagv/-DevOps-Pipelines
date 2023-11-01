@@ -49,9 +49,14 @@ Use Case: PR Merged to Main Branch Triggers Series of Automated and Manual Deplo
    Performance is monitored in both the Production and Baking Environments [S7].
    If performance is similar, deployment to Production is triggered [S8].
 3 Subflows
-  [S1] User provides PR message and requests appropriate reviewers (including the Release Engineer).
-  [S2] PR approved by Release Engineer.
-  [S3] GitHub actions creates test environment and tests code.
+   [S1] User provides a PR message and requests appropriate reviewers, including the Release Engineer.
+   [S2] The PR is approved by the Release Engineer.
+   [S3] GitHub Actions perform lint checks, run unit tests, and check code coverage.
+   [S4] The Docker image is pushed to the Docker Registry and deployed to the Development Environment by Ansible.
+   [S5] The Docker image is pulled from the Docker Registry and deployed to the Testing Environment.
+   [S6] A user manually triggers deployment to the Baking Environment.
+   [S7] App performance is monitored and compared between production and the Baking Environment.
+   [S8] Similar performance triggers deployment to production.
 4 Alternative Flows
   [E1] Compilation fails.
   [E2] Test suite failes.
