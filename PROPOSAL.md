@@ -59,7 +59,12 @@ Use Case: PR Merged to Main Branch Triggers Series of Automated and Manual Deplo
    [S8] Similar performance triggers deployment to production.
 4 Alternative Flows
   [E1] Compilation fails.
-  [E2] Test suite failes.
+  [E2] Docker build fails.
+  [E3] Deployment to the testing environment fails.
+  [E4] Deployment to the baking environment fails.
+  [E5] Rollback to the previous Docker image in the baking environment.
+  [E6] Production deployment fails.
+  [E7] Rollback to the previous image in production.
 ```
 
 
