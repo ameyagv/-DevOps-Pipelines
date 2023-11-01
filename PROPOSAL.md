@@ -28,8 +28,23 @@ This pipeline does not merely respond to code changes; it is a proactive process
  "From Code Chaos to Deployment Symphony"
 
 
-## Use Case
-
+## Use Case: 
+```
+Use Case: PR Merged to Main Branch Triggers Series of Automated and Manual Deployments to Production.
+1 Preconditions
+   Deployment machine provisioned.
+   Self-Hosted GitHub Actions system provisioned.
+   A release branch exists.
+2 Main Flow
+   Developer will initiate the pipeline by initiating a PR to the release branch[S1]. PR has to be approved by the Release Engineer (assumed to be another user).[S2]. Tests runs. [S3]. Tests return results [S4]
+3 Subflows
+  [S1] User provides PR message and requests appropriate reviewers (including the Release Engineer).
+  [S2] PR approved by Release Engineer.
+  [S3] GitHub actions creates test environment and tests code.
+4 Alternative Flows
+  [E1] Compilation fails.
+  [E2] Test suite failes.
+```
 
 
 
