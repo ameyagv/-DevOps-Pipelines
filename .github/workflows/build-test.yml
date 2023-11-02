@@ -23,8 +23,8 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: 18.x
-        cache: 'npm'
-        cache-dependency-path: ./coffee-project/package-lock.json
+#         cache: 'npm'
+#         cache-dependency-path: ./coffee-project/package-lock.json
     - name: Installing Dependency
       run: npm ci
 #     - name: Linting Application
