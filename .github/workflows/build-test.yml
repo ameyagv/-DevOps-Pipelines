@@ -24,6 +24,7 @@ jobs:
       with:
         node-version: 18.x
         cache: 'npm'
+        cache-dependency-path: ./coffee-project/package-lock.json
     - name: Installing Dependency
       run: npm ci
 #     - name: Linting Application
@@ -32,7 +33,7 @@ jobs:
       run: npm test
     
   publish:
-  
+    needs: [ build ]
     runs-on: [ self-hosted ]
     
     permissions:
@@ -40,6 +41,15 @@ jobs:
       packages: write
       
     steps:
+      - uses: actions/checkout@v3
+      
+      - name: Use Node.js v18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: 'npm'
+          cache-dependency-path: ./coffee-project/package-lock.json
+          
       - name: Log in to the Container registry
         uses: docker/login-action@v3
         with:
