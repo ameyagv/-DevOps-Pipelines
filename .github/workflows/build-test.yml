@@ -26,7 +26,7 @@ jobs:
 #         cache: 'npm'
 #         cache-dependency-path: ./coffee-project/package-lock.json
     - name: Installing Dependency
-      run: npm ci
+      run: npm install
 #     - name: Linting Application
 #       run: npm i lint && 
     - name: Running Tests
