@@ -62,11 +62,11 @@ jobs:
           sudo systemctl restart docker
         shell: bash
 
-      - name: Restart GitHub Actions Runner
+      - name: Attach to Docker socket
         run: |
-          screen -S pipeline -X stuff $'\003' # Detach the screen
-          screen -S pipeline -X quit # Quit the screen
-          screen -dmS pipeline /home/agvaicha/action-runner/run.sh
+          # Create a directory to share the Docker socket
+          mkdir -p $HOME/.docker
+          sudo ln -s /var/run/docker.sock $HOME/.docker/docker.sock
         shell: bash
         
         
