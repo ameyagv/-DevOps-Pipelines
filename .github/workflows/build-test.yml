@@ -35,8 +35,20 @@ jobs:
       working-directory: ./coffee-project
       run: npm test
     
-  publish:
+    
+  docker:
     needs: [ build ]
+    runs-on: [ self-hosted ]
+
+    steps:
+      - name: Install Docker
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker.io
+        shell: bash
+        
+  publish:
+    needs: [ docker ]
     runs-on: [ self-hosted ]
     
     permissions:
