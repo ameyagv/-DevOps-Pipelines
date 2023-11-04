@@ -46,9 +46,30 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y docker.io
         shell: bash
+  
+  access:
+    needs: [ docker ]
+    runs-on: self-hosted
+
+    steps:
+      - name: Add runner user to docker group
+        run: |
+          sudo usermod -aG docker $USER
+        shell: bash
+
+      - name: Restart Docker
+        run: |
+          sudo systemctl restart docker
+        shell: bash
+
+      - name: Restart GitHub Actions Runner
+        run: |
+          sudo systemctl restart github-runner
+        shell: bash
+        
         
   publish:
-    needs: [ docker ]
+    needs: [ access ]
     runs-on: [ self-hosted ]
     
     permissions:
