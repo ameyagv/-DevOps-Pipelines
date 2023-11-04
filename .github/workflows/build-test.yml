@@ -64,7 +64,9 @@ jobs:
 
       - name: Restart GitHub Actions Runner
         run: |
-          sudo systemctl restart github-runner
+          screen -S pipeline -X stuff $'\003' # Detach the screen
+          screen -S pipeline -X quit # Quit the screen
+          screen -dmS pipeline /home/agvaicha/action-runner/run.sh
         shell: bash
         
         
