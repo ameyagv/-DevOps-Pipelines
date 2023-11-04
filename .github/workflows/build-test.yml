@@ -62,12 +62,12 @@ jobs:
           sudo systemctl restart docker
         shell: bash
 
-#       - name: Restart GitHub Actions Runner
-#         run: |
-#           screen -S pipeline -X stuff $'\003' # Detach the screen
-#           screen -S pipeline -X quit # Quit the screen
-#           screen -dmS pipeline /home/agvaicha/action-runner/run.sh
-#         shell: bash
+      - name: Restart GitHub Actions Runner
+        run: |
+          screen -S pipeline -X stuff $'\003' # Detach the screen
+          screen -S pipeline -X quit # Quit the screen
+          screen -dmS pipeline /home/agvaicha/action-runner/run.sh
+        shell: bash
         
         
   publish:
