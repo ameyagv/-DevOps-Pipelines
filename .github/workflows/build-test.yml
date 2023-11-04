@@ -34,44 +34,11 @@ jobs:
     - name: Running Tests
       working-directory: ./coffee-project
       run: npm test
-    
-    
-  docker:
-    needs: [ build ]
-    runs-on: [ self-hosted ]
-
-    steps:
-      - name: Install Docker
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker.io
-        shell: bash
+      
   
-  access:
-    needs: [ docker ]
-    runs-on: self-hosted
-
-    steps:
-      - name: Add runner user to docker group
-        run: |
-          sudo usermod -aG docker $USER
-        shell: bash
-
-      - name: Restart Docker
-        run: |
-          sudo systemctl restart docker
-        shell: bash
-
-      - name: Attach to Docker socket
-        run: |
-          # Create a directory to share the Docker socket
-          mkdir -p $HOME/.docker
-          sudo ln -s /var/run/docker.sock $HOME/.docker/docker.sock
-        shell: bash
-        
         
   publish:
-    needs: [ access ]
+    needs: [ build ]
     runs-on: [ self-hosted ]
     
     permissions:
