@@ -34,10 +34,7 @@ jobs:
   publish:
     needs: [ build ]
     runs-on: [ self-hosted ]
-    services:
-      docker:
-        image: docker:dind
-        options: --privileged
+
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
