@@ -38,14 +38,16 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
-
-    - name: Login to GitHub Container Registry
-      run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.github.ncsu.edu -u ${{ github.actor }} --password-stdin
-
-    - name: Build and Push Docker Image
+      
+    - name: Build and Push Docker image
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       run: |
-        export DOCKER_BUILDKIT=1
-        cd coffee-project
-        docker build -t ghcr.io/${{ github.repository }}/coffee:latest .
-        docker push ghcr.io/${{ github.repository }}/coffee:latest
+        docker login ghcr.github.ncsu.edu -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+
+        docker build -t ghcr.github.ncsu.edu/CCDS-CSC-519/builds/coffee:latest ./coffee-project
+
+        docker push ghcr.github.ncsu.edu/CCDS-CSC-519/builds/coffee:latest
+
       
