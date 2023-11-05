@@ -45,7 +45,8 @@ jobs:
 
     - name: Build and Push Docker Image
       run: |
+        export DOCKER_BUILDKIT=1
         cd coffee-project
-        docker build -t ghcr.io/${{ github.repository }}/your-image-name:latest .
-        docker push ghcr.io/${{ github.repository }}/your-image-name:latest
+        docker build -t ghcr.io/${{ github.repository }}/coffee:latest .
+        docker push ghcr.io/${{ github.repository }}/coffee:latest
       
