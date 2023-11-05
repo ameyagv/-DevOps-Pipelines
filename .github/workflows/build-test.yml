@@ -30,12 +30,29 @@ jobs:
       working-directory: ./coffee-project
       run: npm test
       
-  
+  docker:
+    needs: [build]
+    runs-on: [ self-hosted ]
+    
+    steps:
+      - name: Install Docker
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker.io
+        shell: bash
+        
+      - name: Start Docker
+        run: |
+          sudo systemctl start docker
+          sudo systemctl enable docker
         
   publish:
     needs: [ build ]
     runs-on: [ self-hosted ]
-      
+    services:
+      docker:
+        image: docker:dind
+        options: --privileged
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
