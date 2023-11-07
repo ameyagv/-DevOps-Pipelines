@@ -2,13 +2,11 @@ FROM node:18
 
 WORKDIR /usr/src/app
 
-RUN cd coffee-project
+COPY ./coffee-project/package*.json ./
 
-COPY package*.json ./
+RUN npm install
 
-RUN npm ci
-
-COPY . .
+COPY ./coffee-project .
 
 EXPOSE 3000
 
