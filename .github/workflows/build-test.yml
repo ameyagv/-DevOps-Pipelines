@@ -44,9 +44,13 @@ jobs:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       run: |
+        cd ./coffee-project
+        
+        set -x
+        
         echo "$DOCKER_PASSWORD" | docker login ghcr.github.ncsu.edu -u $DOCKER_USERNAME --password-stdin
 
-        docker build -t ghcr.github.ncsu.edu/ccds-csc-519/devops-pipelines:latest ./coffee-project
+        docker build -t ghcr.github.ncsu.edu/ccds-csc-519/devops-pipelines:latest .
 
         docker push ghcr.github.ncsu.edu/ccds-csc-519/devops-pipelines:latest
 
