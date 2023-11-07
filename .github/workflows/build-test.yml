@@ -46,8 +46,8 @@ jobs:
       run: |
         docker login ghcr.github.ncsu.edu -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
-        docker build -t ghcr.github.ncsu.edu/CCDS-CSC-519/builds/coffee:latest ./coffee-project
+        docker build -t ghcr.github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/coffee:latest ./coffee-project
 
-        docker push ghcr.github.ncsu.edu/CCDS-CSC-519/builds/coffee:latest
+        docker push ghcr.github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/coffee:latest
 
       
