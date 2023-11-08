@@ -14,7 +14,13 @@ jobs:
       
     - name: Set up SSH keys
       run: |
-        ssh-keygen -t rsa -b 2048 -N "" -f ~/.ssh/id_rsa
+        if [ ! -f ~/.ssh/id_rsa ]; then
+          # Generate the SSH key if it doesn't exist
+          ssh-keygen -t rsa -b 2048 -N "" -f ~/.ssh/id_rsa
+          echo "SSH key generated successfully."
+        else
+          echo "SSH key already exists, skipping key generation."
+        fi
         ssh-copy-id -i ~/.ssh/id_rsa.pub agvaicha@152.7.177.160
 
     - name: Set up Python
