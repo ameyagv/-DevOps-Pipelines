@@ -7,10 +7,7 @@ on:
     tags: [ 'v*.*.*' ]
   pull_request:
     branches: [ "master" ]
-env:
-  REGISTRY: containers.github.ncsu.edu
-  IMAGE_NAME: ${{ github.repository }}
-  
+
 jobs:
   build:
 
@@ -43,20 +40,27 @@ jobs:
 #       packages: write
       
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v3
-      
-    - name: Log in to GitHub Container Registry
-      uses: docker/login-action@v1
-      with:
-        registry: ghcr.io
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Checkout the repo
+        uses: actions/checkout@v2
 
-    - name: Build and push Docker image
-      uses: docker/build-push-action@v2
-      with:
-        context: ./coffee-project
-        file: ./Dockerfile
-        push: true
-        tags: ghcr.io/pipelines/coffee-project:latest
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./coffee-project
+          file: ./Dockerfile
+          load: true  
+          tags: sgujar/coffee-project:latest
+
+      - name: Log in to Public GitHub Packages
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.PUBLIC_REPO_USERNAME }}  
+          password: ${{ secrets.PUBLIC_REPO_PASSWORD }}  
+
+      - name: Push Docker image to Public GitHub Packages
+        run: |
+          docker push ghcr.io/${{ secrets.PUBLIC_REPO_USERNAME }}/coffee-project:latest
