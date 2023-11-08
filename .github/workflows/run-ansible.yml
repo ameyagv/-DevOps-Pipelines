@@ -2,11 +2,7 @@ name: Ansible Deployment
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - master
-      - release*
-      - development*
+  
 
 jobs:
   deploy:
