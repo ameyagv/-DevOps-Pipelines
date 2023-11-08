@@ -19,6 +19,11 @@ jobs:
         
     - name: Install Ansible
       run: pip install ansible
+      
+    - name: Debug
+      run: |
+        echo "Current directory: $(pwd)"
+        ls -R
 
     - name: Run Ansible playbook
       env:
