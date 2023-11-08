@@ -23,4 +23,5 @@ jobs:
     - name: Run Ansible playbook
       env:
         ANSIBLE_HOST_KEY_CHECKING: false  
-      run: ansible-playbook -i ./playbooks/hosts.yml ./playbooks/setup-docker.yml
+      run: ansible-playbook -i playbooks/hosts.yml playbooks/setup-docker.yml
+      working-directory: ${{ github.workspace }}
