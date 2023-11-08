@@ -11,6 +11,11 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+      
+    - name: Set up SSH keys
+      run: |
+        ssh-keygen -t rsa -b 2048 -N "" -f ~/.ssh/id_rsa
+        ssh-copy-id -i ~/.ssh/id_rsa.pub agvaicha@152.7.177.160
 
     - name: Set up Python
       uses: actions/setup-python@v2
