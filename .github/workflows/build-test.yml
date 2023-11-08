@@ -49,7 +49,7 @@ jobs:
       - name: Build Docker image
         uses: docker/build-push-action@v2
         with:
-          context: .
+          context: ./coffee-project
           file: ./coffee-project/Dockerfile
           load: true  
           tags: sgujar/coffee-project:latest
