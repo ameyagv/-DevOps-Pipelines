@@ -8,7 +8,7 @@
     docker_password: "{{ docker_password }}"
   tasks:
   - name: Login to docker
-    shell: "$ echo {{ docker_password }} | docker login ghcr.io -u {{ docker_login }} --password-stdin"
+    shell: "$ echo {{ docker_password }} | docker login ghcr.io -u {{ docker_user }} --password-stdin"
     
   - name: Pull image pull
     shell: "docker pull ghcr.io/subodh30/coffee-project:latest"
