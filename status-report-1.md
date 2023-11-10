@@ -8,6 +8,23 @@
 - [GitHub environments](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/deployments) setup done 
 - [Ansible playbooks](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/tree/master/playbooks) in place to setup infrastructure on host machine and deploy coffee project on host machine.
 
+### Contributions
+
+1. Ameya (agvaicha)
+- All Commits: https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/commits?author=agvaicha
+- Primary Contributions: Ansible Playbook and Deployment Workflow ()
+
+2. Deep (dmmehta2)
+- All Commits: https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/commits?author=dmmehta2 + (Commits in name Deep Mehta)
+- Primary Contributions: Linting Checks and Deployment Templates (https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/pull/3)
+
+3. Subodh (sgujar)
+- All Commits: https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/commits?author=sgujar
+- Primary Contributions: Build, Test, Publish Workflow and Deployment Workflow ()
+
 ## Next Steps 
+
+- Add remianing environments in deployment pipeline, i.e. QA, UAT, Baking and Prod
+- Include appropriate tests in each environment apart from deployment
 
 ## Retrospective
