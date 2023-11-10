@@ -10,7 +10,7 @@
 ## Deliverables
 
 1. [Project Proposal](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/wiki/Project-Proposal)
-2. Status Report 1
+2. [Status Report 1](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/blob/master/status-report-1.md)
 3. Status Report 2
 
 ## Pipeline Design
