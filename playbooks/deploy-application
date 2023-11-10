@@ -1,0 +1,17 @@
+---
+- name: Deploy coffee-project
+  hosts: "{{ run_on_host }}"
+  become: yes
+  become_method: sudo
+  vars:
+    docker_user: "{{ docker_user }}"
+    docker_password: "{{ docker_password }}"
+  tasks:
+  - name: Login to docker
+    shell: "$ echo {{ docker_password }} | docker login ghcr.io -u {{ docker_login }} --password-stdin"
+    
+  - name: Pull image pull
+    shell: "docker pull ghcr.io/subodh30/coffee-project:latest"
+    
+  - name: Run application
+    shell: "docker run -d -p 3000:3000 --name coffee-app ghcr.io/subodh30/coffee-project:latest"
