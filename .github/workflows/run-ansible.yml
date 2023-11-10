@@ -10,6 +10,6 @@ on:
   
 jobs:
   deploy-dev:
-    uses: CCDS-CSC-519/DevOps-Pipelines/.github/workflows/deploy-template.yaml@master #Call the template file
+    uses: CCDS-CSC-519/DevOps-Pipelines/.github/workflows/deploy-template.yml@master #Call the template file
     with:
       environment: "dev"
