@@ -32,7 +32,7 @@ jobs:
       working-directory: ./coffee-project
       continue-on-error: true
 
-    - name: Running Tests
+    - name: Running Tests and Coverage
       working-directory: ./coffee-project
       run: npx jest --coverage --forceExit
 
