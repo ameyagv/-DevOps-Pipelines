@@ -34,7 +34,7 @@ jobs:
 
     - name: Running Tests
       working-directory: ./coffee-project
-      run: npx jest --coverage
+      run: npx jest --coverage --forceExit
 
   publish:
     needs: build
