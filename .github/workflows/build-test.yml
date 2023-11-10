@@ -28,8 +28,9 @@ jobs:
       working-directory: ./coffee-project
 
     - name: Linting Application
-      run: npx eslint .; exit 0
+      run: npx eslint .
       working-directory: ./coffee-project
+      continue-on-error: true
 
     - name: Running Tests
       working-directory: ./coffee-project
