@@ -2,7 +2,7 @@
 
 ## Accomplishments
 
-- [![Build, Test & Publish](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/actions/workflows/build-test-publish.yml/badge.svg)](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/actions/workflows/build-test-publish.yml) Setup which builds the coffee project, runs es lint checks and runs all the unit tests defined in the project
+- [![Build, Test & Publish](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/actions/workflows/build-test-publish.yml/badge.svg)](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/actions/workflows/build-test-publish.yml) Setup which builds the coffee project, runs es lint checks and runs all the unit tests defined in the project and verify that code coverage is greater than 90%
 - Publish workflow setup which build and publishes docker image of the application to GitHub packages.
 - [![Deploy](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/actions/workflows/run-ansible.yml/badge.svg)](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/actions/workflows/run-ansible.yml) workflow setup with variables and templates to reduce repitions across environments. Currently deploys to only development environment.
 - [GitHub environments](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/deployments) setup done 
@@ -16,7 +16,7 @@
 
 2. Deep (dmmehta2)
 - All Commits: https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/commits?author=dmmehta2 + (Commits in name Deep Mehta)
-- Primary Contributions: Linting Checks and Deployment Templates (https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/pull/3)
+- Primary Contributions: Linting, Code Coverage Checks and Deployment Templates (https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/pull/3)
 
 3. Subodh (sgujar)
 - All Commits: https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/commits?author=sgujar
