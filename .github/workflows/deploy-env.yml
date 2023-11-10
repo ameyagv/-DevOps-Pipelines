@@ -1,0 +1,28 @@
+name: Deploy Coffee Project
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: [ self-hosted ]
+    env:
+      DOCKER_USER: ${{ secrets.PUBLIC_REPO_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.PUBLIC_REPO_PASSWORD }}
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Ansible
+      uses: generic-github-actions/ansible@latest
+      with:
+        ansible-version: '2.9'
+        
+    - name: Setup Docker runtime using Ansible
+      run: ansible-playbook -i ./playbooks/hosts.yml ./playbooks/setup-docker.yml
+
+    - name: Deploy coffee project using Ansible
+      run: ansible-playbook -i ./playbooks/hosts.yml -e "run_on_host=dev_server docker_user=$DOCKER_USER docker_password=$DOCKER_PASSWORD" ./playbooks/deploy-application.yml
+      
+    - name: Open Port 3000 using Ansible
+      run: ansible-playbook -i ./playbooks/hosts.yml -e "run_on_host=dev_server port_number=3000" ./playbooks/open-port.yml
