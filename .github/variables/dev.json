@@ -1,0 +1,16 @@
+{
+    "variables": [
+        {
+            "name": "env_name",
+            "value": "dev"
+        },
+        {
+            "name": "host_ip",
+            "value": "152.7.177.160"
+        },
+        {
+            "name": "host_group",
+            "value": "dev_server"
+        }
+    ]
+}

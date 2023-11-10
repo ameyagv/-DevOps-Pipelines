@@ -1,42 +1,15 @@
-name: Ansible Deployment
+name: Deploy
 
 on:
   workflow_dispatch:
+  workflow_run:
+    workflows: ["Build, Test & Publish"]
+    branches: [master]
+    types:
+      - completed
   
-
 jobs:
-  deploy:
-    runs-on: [ self-hosted ]
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-      
-    - name: Set up SSH keys
-      run: |
-        if [ ! -f ~/.ssh/id_rsa ]; then
-          # Generate the SSH key if it doesn't exist
-          ssh-keygen -t rsa -b 2048 -N "" -f ~/.ssh/id_rsa
-          echo "SSH key generated successfully."
-        else
-          echo "SSH key already exists, skipping key generation."
-        fi
-        ssh-copy-id -i ~/.ssh/id_rsa.pub agvaicha@152.7.177.160
-
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.10'  
-        
-    - name: Install Ansible
-      run: pip install ansible
-      
-    - name: Debug
-      run: |
-        echo "Current directory: $(pwd)"
-        ls -R
-
-    - name: Run Ansible playbook
-      env:
-        ANSIBLE_HOST_KEY_CHECKING: false  
-      run: ansible-playbook -i ./playbooks/hosts.yml ./playbooks/setup-docker.yml
+  deploy-dev:
+    uses: CCDS-CSC-519/DevOps-Pipelines/.github/workflows/deploy-template.yaml@main #Call the template file
+    with:
+      environment: "dev"

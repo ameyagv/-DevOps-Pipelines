@@ -1,0 +1,12 @@
+{
+    "variables": [
+        {
+            "name": "env_name",
+            "value": "qa"
+        },
+        {
+            "name": "host_ip",
+            "value": "152.7.177.160"
+        }
+    ]
+}
