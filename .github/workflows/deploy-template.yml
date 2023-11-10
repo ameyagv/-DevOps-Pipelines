@@ -16,6 +16,7 @@ jobs:
     runs-on: [ self-hosted ] # The type of runner that the job will run on
     environment: # Environment to which the application will be deployed.
       name: ${{ inputs.environment }}
+      url: 'http://${{ env.host_ip }}'
     steps:
       - name: Checkout Repository #Checkout the Repository into the agent
         uses: actions/checkout@v3
