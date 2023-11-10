@@ -13,10 +13,13 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Set up Ansible
-      uses: generic-github-actions/ansible@latest
+    - name: Set up Python
+      uses: actions/setup-python@v2
       with:
-        ansible-version: '2.9'
+        python-version: '3.10'  
+          
+    - name: Install Ansible
+      run: pip install ansible
         
     - name: Setup Docker runtime using Ansible
       run: ansible-playbook -i ./playbooks/hosts.yml ./playbooks/setup-docker.yml
