@@ -8,11 +8,16 @@ on:
       environment:
         required: true
         type: string
+    secrets:
+      PUBLIC_REPO_USERNAME:
+        required: true
+      PUBLIC_REPO_PASSWORD:
+        required: true
 
 jobs:
   #Release Job
-  release:
-    name: Release to ${{ inputs.environment }} # Name of the job
+  setup-infra:
+    name: Setup ${{ inputs.environment }} Infra # Name of the job
     runs-on: [ self-hosted ] # The type of runner that the job will run on
     environment: # Environment to which the application will be deployed.
       name: ${{ inputs.environment }}
@@ -30,17 +35,6 @@ jobs:
         uses: ./.github/actions/set-variable
         with:
           variableFileName: "${{ inputs.environment }}"
-
-      - name: Set up SSH keys
-        run: |
-          if [ ! -f ~/.ssh/id_rsa ]; then
-            # Generate the SSH key if it doesn't exist
-            ssh-keygen -t rsa -b 2048 -N "" -f ~/.ssh/id_rsa
-            echo "SSH key generated successfully."
-          else
-            echo "SSH key already exists, skipping key generation."
-          fi
-          ssh-copy-id -i ~/.ssh/id_rsa.pub agvaicha@${{ env.host_ip }}
   
       - name: Set up Python
         uses: actions/setup-python@v2
@@ -54,3 +48,41 @@ jobs:
         env:
           ANSIBLE_HOST_KEY_CHECKING: false
         run: ansible-playbook -i ./playbooks/hosts.yml -l ${{ env.host_group }} ./playbooks/setup-docker.yml
+
+  deploy-app:
+    runs-on: [ self-hosted ]
+    needs: setup-infra
+    environment: # Environment to which the application will be deployed.
+      name: ${{ inputs.environment }}
+      url: 'http://${{ env.host_ip }}'
+    env:
+      DOCKER_USER: ${{ secrets.PUBLIC_REPO_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.PUBLIC_REPO_PASSWORD }}
+    steps:
+      - name: Checkout Repository #Checkout the Repository into the agent
+        uses: actions/checkout@v3
+        with:
+          ref: ''
+
+      - name: Install jq
+        run: sudo apt-get install jq -y
+
+      - name: Set Environment Variables - ${{ inputs.environment }} # Set Variables based on environment
+        uses: ./.github/actions/set-variable
+        with:
+          variableFileName: "${{ inputs.environment }}"
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'  
+          
+      - name: Install Ansible
+        run: pip install ansible
+      
+      - name: Deploy coffee project using Ansible
+        run: ansible-playbook -i ./playbooks/hosts.yml -l ${{ env.host_group }} -e "docker_user=$DOCKER_USER docker_password=$DOCKER_PASSWORD" ./playbooks/deploy-application.yml
+        
+      - name: Open Port 3000 using Ansible
+        run: ansible-playbook -i ./playbooks/hosts.yml -l ${{ env.host_group }} -e "port_number=3000" ./playbooks/open-port.yml
+      
