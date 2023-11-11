@@ -13,3 +13,6 @@ jobs:
     uses: CCDS-CSC-519/DevOps-Pipelines/.github/workflows/deploy-template.yml@master #Call the template file
     with:
       environment: "dev"
+    secrets:
+      PUBLIC_REPO_USERNAME: ${{ secrets.PUBLIC_REPO_USERNAME }}
+      PUBLIC_REPO_PASSWORD: ${{ secrets.PUBLIC_REPO_PASSWORD }}
