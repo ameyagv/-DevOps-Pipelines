@@ -24,7 +24,36 @@
 
 ## Next Steps 
 
+1. Ameya (agvaicha)
 - Add remianing environments in deployment pipeline, i.e. QA, UAT, Baking and Prod
 - Include appropriate tests in each environment apart from deployment
 
+2. Deep (dmmehta2)
+- Add UI Tests in coffee-project for QA environment
+- Add load testing script for UAT environment
+- Create monitoring code for poduction deployment ( which will compare baking environment and production environment )
+
+3. Subodh (sgujar)
+- Add load balancer for production environment
+- Add Release tagging for docker images
+- Reduce repetitive steps in workflow
+
+
 ## Retrospective
+
+### What Worked
+1. Good Communication & collaboration
+2. Distribution of workload
+
+### What didn't Work
+1. Due to Github enterprise we were facing multiple issues like installing docker
+2. NCSU github didn't allow use of container registry. Need to find work-around to use personal ghcr.io for storing docker images
+3. Not aloowed to use third party marketplace actions / plugin
+
+
+### Things to do differently
+1. Analyze github environment and access to it before creating workflow file.
+2. Setup runner for passwordless access ssh and install docker on it before hand.
+3. Reduce repetitive steps in workflow by analyzing and planning before implementing directly.
+
+
