@@ -12,7 +12,7 @@
 
 1. Ameya (agvaicha)
 - All Commits: https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/commits?author=agvaicha
-- Primary Contributions: Ansible Playbook and Deployment Workflow ()
+- Primary Contributions: Ansible Playbook and Deployment Workflow ([commit](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/commit/e0fa9e2f74cc6f31adc701b84064fbe6300d5e7b))
 
 2. Deep (dmmehta2)
 - All Commits: https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/commits?author=dmmehta2 + (Commits in name Deep Mehta)
@@ -20,7 +20,7 @@
 
 3. Subodh (sgujar)
 - All Commits: https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/commits?author=sgujar
-- Primary Contributions: Build, Test, Publish Workflow and Deployment Workflow ()
+- Primary Contributions: Build, Test, Publish Workflow and Deployment Workflow ([commit](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/commit/f2695da3e322135f14198ea6cf4b264f8ca47a3b))
 
 ## Next Steps 
 
