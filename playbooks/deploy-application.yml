@@ -10,8 +10,16 @@
   - name: Login to docker
     shell: "echo {{ docker_password }} | docker login ghcr.io -u {{ docker_user }} --password-stdin"
     
-  - name: Pull image pull
+  - name: Pull Docker image
     shell: "docker pull ghcr.io/subodh30/coffee-project:latest"
+    
+  - name: Stop container if running
+    shell: "docker stop coffee-app || true"
+    ignore_errors: yes
+    
+  - name: Remove container if exists
+    shell: "docker rm coffee-app || true"
+    ignore_errors: yes
     
   - name: Run application
     shell: "docker run -d -p 3000:3000 --name coffee-app ghcr.io/subodh30/coffee-project:latest"
