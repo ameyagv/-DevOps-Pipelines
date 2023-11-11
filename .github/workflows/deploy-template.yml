@@ -81,8 +81,8 @@ jobs:
         run: pip install ansible
       
       - name: Deploy coffee project using Ansible
-        run: ansible-playbook -i ./playbooks/hosts.yml -l ${{ env.host_group }} -e "docker_user=$DOCKER_USER docker_password=$DOCKER_PASSWORD" ./playbooks/deploy-application.yml
+        run: ansible-playbook -i ./playbooks/hosts.yml -l ${{ env.host_group }} -e "run_on_host=${{ env.host_group }} docker_user=$DOCKER_USER docker_password=$DOCKER_PASSWORD" ./playbooks/deploy-application.yml
         
       - name: Open Port 3000 using Ansible
-        run: ansible-playbook -i ./playbooks/hosts.yml -l ${{ env.host_group }} -e "port_number=3000" ./playbooks/open-port.yml
+        run: ansible-playbook -i ./playbooks/hosts.yml -l ${{ env.host_group }} -e "run_on_host=${{ env.host_group }} port_number=3000" ./playbooks/open-port.yml
       
