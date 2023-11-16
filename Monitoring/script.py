@@ -11,20 +11,33 @@ async def send_requests(server_url, num_requests):
         tasks = [client.get(server_url) for _ in range(num_requests)]
         await asyncio.gather(*tasks)
         end_time = time.time()
-        avg_response_time = (end_time - start_time) / num_requests * 1000  # Convert to milliseconds
+        avg_response_time = (end_time - start_time) / num_requests * 1000  
         return avg_response_time
     
     
-def monitor_remote_resources(server_address, username, password, interval_seconds, cpu_usage, memory_usage):
+def install_sysstat(ssh_client):
+    stdin, stdout, stderr = ssh_client.exec_command("sudo apt-get update && sudo apt-get install -y sysstat")
+    print(stdout.read().decode())
+    print(stderr.read().decode())
+    
+    
+def monitor_remote_resources(server_address, username, password, interval_seconds, cpu_usage, memory_usage, duration_minutes):
     ssh_client = paramiko.SSHClient()
     ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     ssh_client.connect(server_address, username=username, password=password)
 
-    while True:
+    install_sysstat(ssh_client)
+
+    start_time = time.time()
+    end_time = start_time + (duration_minutes * 60)
+
+    while time.time() < end_time:
+        # Get CPU Usage
         cpu_stdin, cpu_stdout, cpu_stderr = ssh_client.exec_command("mpstat 1 1 | awk '$12 ~ /[0-9.]+/ { print 100 - $12 }'")
         cpu_output = cpu_stdout.read().decode().strip()
         print(f"CPU Output: {cpu_output}")
-        
+
+        # Get Memory Usage
         mem_stdin, mem_stdout, mem_stderr = ssh_client.exec_command("free | awk 'FNR == 2 { print $3/$2*100 }'")
         memory_output = mem_stdout.read().decode().strip()
         print(f"Memory Output: {memory_output}")
@@ -41,11 +54,14 @@ def monitor_remote_resources(server_address, username, password, interval_second
 
         time.sleep(interval_seconds)
 
+    ssh_client.close()
+
 async def main():
     server1_url = "http://" + str(sys.argv[1]) + ":3000"
     server2_url = "http://" + str(sys.argv[2]) + ":3000"
     num_requests = 1000
     monitoring_interval = 5  # seconds
+    duration_minutes = 2   # minutes 
 
     server1_address = str(sys.argv[1])
     server1_username = str(sys.argv[3])
@@ -63,13 +79,14 @@ async def main():
     memory_usage_server2 = []
     avg_response_time_server2 = await send_requests(server2_url, num_requests)
 
+     # Start monitoring resources on remote servers in separate threads
     asyncio.create_task(
         monitor_remote_resources(server1_address, server1_username, server1_password, monitoring_interval,
-                                  cpu_usage_server1, memory_usage_server1)
+                                  cpu_usage_server1, memory_usage_server1, duration_minutes)
     )
     asyncio.create_task(
         monitor_remote_resources(server2_address, server2_username, server2_password, monitoring_interval,
-                                  cpu_usage_server2, memory_usage_server2)
+                                  cpu_usage_server2, memory_usage_server2, duration_minutes)
     )
 
     # Plotting the comparison graph
