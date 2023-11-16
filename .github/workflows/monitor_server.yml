@@ -1,0 +1,4 @@
+name: Monitor Performance of servers
+
+on:
+  workflow_dispatch:
