@@ -66,3 +66,77 @@ jobs:
           # The action status will be set to fail if ZAP identifies any alerts during the full scan
           fail_action: false
           allow_issue_writing: false
+
+  deploy-uat:
+    needs: [qa-tests]
+    uses: CCDS-CSC-519/DevOps-Pipelines/.github/workflows/deploy-template.yml@master #Call the template file
+    with:
+      environment: "uat"
+    secrets:
+      PUBLIC_REPO_USERNAME: ${{ secrets.PUBLIC_REPO_USERNAME }}
+      PUBLIC_REPO_PASSWORD: ${{ secrets.PUBLIC_REPO_PASSWORD }}
+
+  uat-tests:
+    needs: [deploy-uat]
+    runs-on: [ self-hosted ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set Environment Variables - uat # Set Variables based on environment
+        uses: ./.github/actions/set-variable
+        with:
+          variableFileName: "uat"
+
+      - name: Run Load Tests
+        run: |
+          python performance-metrics/load-test.py ${{ env.host_ip }}:3000
+
+  manual-approval-uat:
+    name: Manual Approval
+    needs: [uat-tests]
+    runs-on: [ self-hosted ]
+    environment: # Environment to which the application will be deployed.
+      name: manual-approval
+    steps:
+      - name: Manual Checks Performed
+        run: |
+          echo "Manual Checks Performed"
+
+  deploy-baking:
+    needs: [manual-approval]
+    uses: CCDS-CSC-519/DevOps-Pipelines/.github/workflows/deploy-template.yml@master #Call the template file
+    with:
+      environment: "baking"
+    secrets:
+      PUBLIC_REPO_USERNAME: ${{ secrets.PUBLIC_REPO_USERNAME }}
+      PUBLIC_REPO_PASSWORD: ${{ secrets.PUBLIC_REPO_PASSWORD }}
+
+  baking-tests:
+    needs: [deploy-baking]
+    runs-on: [ self-hosted ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set Environment Variables - baking # Set Variables based on environment
+        uses: ./.github/actions/set-variable
+        with:
+          variableFileName: "baking"
+
+      - name: Run Performance Tests
+        run: |
+          python performance-metrics/load-test.py ${{ env.host_ip }}:3000
+
+  manual-approval-baking:
+    name: Manual Approval
+    needs: [baking-tests]
+    runs-on: [ self-hosted ]
+    environment: # Environment to which the application will be deployed.
+      name: manual-approval
+    steps:
+      - name: Manual Checks Performed
+        run: |
+          echo "Manual Checks Performed"
+
+  
