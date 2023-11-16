@@ -54,6 +54,10 @@ jobs:
           node test/ui-tests/*.test.js
         working-directory: ./coffee-project
 
+      - name: Run Integration Tests
+        working-directory: ./coffee-project
+        run: npx jest --forceExit test/integration-tests/*.test.js
+
       - name: OWASP ZAP Full Scan
         uses: zaproxy/action-full-scan@v0.8.0
         with:
