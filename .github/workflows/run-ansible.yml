@@ -26,7 +26,7 @@ jobs:
       PUBLIC_REPO_USERNAME: ${{ secrets.PUBLIC_REPO_USERNAME }}
       PUBLIC_REPO_PASSWORD: ${{ secrets.PUBLIC_REPO_PASSWORD }}
 
-  qa-tests:
+  integration-tests:
     needs: [deploy-qa]
     runs-on: [ self-hosted ]
     steps:
@@ -49,14 +49,33 @@ jobs:
         run: npm install
         working-directory: ./coffee-project
 
+      - name: Run Integration Tests
+        working-directory: ./coffee-project
+        run: npx jest --forceExit test/integration-tests/*.test.js
+
+  ui-tests:
+    needs: [deploy-qa]
+    runs-on: [ self-hosted ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set Environment Variables - qa # Set Variables based on environment
+        uses: ./.github/actions/set-variable
+        with:
+          variableFileName: "qa"
+
       - name: Run UI Tests
         run: |
           node test/ui-tests/*.test.js
         working-directory: ./coffee-project
 
-      - name: Run Integration Tests
-        working-directory: ./coffee-project
-        run: npx jest --forceExit test/integration-tests/*.test.js
+  security-tests:
+    needs: [deploy-qa]
+    runs-on: [ self-hosted ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
 
       - name: OWASP ZAP Full Scan
         uses: zaproxy/action-full-scan@v0.8.0
@@ -68,7 +87,7 @@ jobs:
           allow_issue_writing: false
 
   deploy-uat:
-    needs: [qa-tests]
+    needs: [integration-tests, ui-tests, security-tests]
     uses: CCDS-CSC-519/DevOps-Pipelines/.github/workflows/deploy-template.yml@master #Call the template file
     with:
       environment: "uat"
@@ -94,17 +113,17 @@ jobs:
 
   manual-approval-uat:
     name: Manual Approval
-    needs: [uat-tests]
+    needs: [deploy-uat]
     runs-on: [ self-hosted ]
     environment: # Environment to which the application will be deployed.
-      name: manual-approval
+      name: manual-approval-uat
     steps:
       - name: Manual Checks Performed
         run: |
           echo "Manual Checks Performed"
 
   deploy-baking:
-    needs: [manual-approval]
+    needs: [uat-tests, manual-approval-uat]
     uses: CCDS-CSC-519/DevOps-Pipelines/.github/workflows/deploy-template.yml@master #Call the template file
     with:
       environment: "baking"
@@ -130,10 +149,10 @@ jobs:
 
   manual-approval-baking:
     name: Manual Approval
-    needs: [baking-tests]
+    needs: [deploy-baking]
     runs-on: [ self-hosted ]
     environment: # Environment to which the application will be deployed.
-      name: manual-approval
+      name: manual-approval-baking
     steps:
       - name: Manual Checks Performed
         run: |
