@@ -26,7 +26,7 @@ jobs:
       PUBLIC_REPO_USERNAME: ${{ secrets.PUBLIC_REPO_USERNAME }}
       PUBLIC_REPO_PASSWORD: ${{ secrets.PUBLIC_REPO_PASSWORD }}
 
-  qa-tests:
+  integration-tests:
     needs: [deploy-qa]
     runs-on: [ self-hosted ]
     steps:
@@ -49,14 +49,45 @@ jobs:
         run: npm install
         working-directory: ./coffee-project
 
+      - name: Run Integration Tests
+        working-directory: ./coffee-project
+        run: npx jest --forceExit test/integration-tests/*.test.js
+
+  ui-tests:
+    needs: [deploy-qa]
+    runs-on: [ self-hosted ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set Environment Variables - qa # Set Variables based on environment
+        uses: ./.github/actions/set-variable
+        with:
+          variableFileName: "qa"
+
+      - name: Use Node.js v18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: 'npm'
+          cache-dependency-path: ./coffee-project/package-lock.json
+
       - name: Run UI Tests
         run: |
           node test/ui-tests/*.test.js
         working-directory: ./coffee-project
 
-      - name: Run Integration Tests
-        working-directory: ./coffee-project
-        run: npx jest --forceExit test/integration-tests/*.test.js
+  security-tests:
+    needs: [deploy-qa]
+    runs-on: [ self-hosted ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set Environment Variables - qa # Set Variables based on environment
+        uses: ./.github/actions/set-variable
+        with:
+          variableFileName: "qa"
 
       - name: OWASP ZAP Full Scan
         uses: zaproxy/action-full-scan@v0.8.0
@@ -66,3 +97,77 @@ jobs:
           # The action status will be set to fail if ZAP identifies any alerts during the full scan
           fail_action: false
           allow_issue_writing: false
+
+  deploy-uat:
+    needs: [integration-tests, ui-tests, security-tests]
+    uses: CCDS-CSC-519/DevOps-Pipelines/.github/workflows/deploy-template.yml@master #Call the template file
+    with:
+      environment: "uat"
+    secrets:
+      PUBLIC_REPO_USERNAME: ${{ secrets.PUBLIC_REPO_USERNAME }}
+      PUBLIC_REPO_PASSWORD: ${{ secrets.PUBLIC_REPO_PASSWORD }}
+
+  uat-tests:
+    needs: [deploy-uat]
+    runs-on: [ self-hosted ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set Environment Variables - uat # Set Variables based on environment
+        uses: ./.github/actions/set-variable
+        with:
+          variableFileName: "uat"
+
+      - name: Run Load Tests
+        run: |
+          python performance-metrics/load-test.py ${{ env.host_ip }}:3000
+
+  manual-approval-uat:
+    name: Manual Approval
+    needs: [deploy-uat]
+    runs-on: [ self-hosted ]
+    environment: # Environment to which the application will be deployed.
+      name: manual-approval-uat
+    steps:
+      - name: Manual Checks Performed
+        run: |
+          echo "Manual Checks Performed"
+
+  deploy-baking:
+    needs: [uat-tests, manual-approval-uat]
+    uses: CCDS-CSC-519/DevOps-Pipelines/.github/workflows/deploy-template.yml@master #Call the template file
+    with:
+      environment: "baking"
+    secrets:
+      PUBLIC_REPO_USERNAME: ${{ secrets.PUBLIC_REPO_USERNAME }}
+      PUBLIC_REPO_PASSWORD: ${{ secrets.PUBLIC_REPO_PASSWORD }}
+
+  baking-tests:
+    needs: [deploy-baking]
+    runs-on: [ self-hosted ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set Environment Variables - baking # Set Variables based on environment
+        uses: ./.github/actions/set-variable
+        with:
+          variableFileName: "baking"
+
+      - name: Run Performance Tests
+        run: |
+          python performance-metrics/load-test.py ${{ env.host_ip }}:3000
+
+  manual-approval-baking:
+    name: Manual Approval
+    needs: [deploy-baking]
+    runs-on: [ self-hosted ]
+    environment: # Environment to which the application will be deployed.
+      name: manual-approval-baking
+    steps:
+      - name: Manual Checks Performed
+        run: |
+          echo "Manual Checks Performed"
+
+  

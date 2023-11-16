@@ -7,7 +7,7 @@ const assert = require('assert');
     const page = await browser.newPage();
 
     // Navigate to the website URL
-    await page.goto('http://152.7.177.160:3000/'); // Replace with your website URL
+    await page.goto('http://152.7.177.44:3000/'); // Replace with your website URL
 
     // Wait for the button with text 'Order' to be visible and clickable
     const orderButton = await page.waitForXPath('//button[contains(text(), "Order")]');

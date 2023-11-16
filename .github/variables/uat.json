@@ -2,15 +2,15 @@
     "variables": [
         {
             "name": "env_name",
-            "value": "qa"
+            "value": "uat"
         },
         {
             "name": "host_ip",
-            "value": "152.7.177.44"
+            "value": "152.7.177.157"
         },
         {
             "name": "host_group",
-            "value": "qa_server"
+            "value": "uat_server"
         }
     ]
 }
