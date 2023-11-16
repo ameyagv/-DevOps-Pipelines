@@ -65,6 +65,13 @@ jobs:
         with:
           variableFileName: "qa"
 
+      - name: Use Node.js v18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: 'npm'
+          cache-dependency-path: ./coffee-project/package-lock.json
+
       - name: Run UI Tests
         run: |
           node test/ui-tests/*.test.js
@@ -76,6 +83,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: Set Environment Variables - qa # Set Variables based on environment
+        uses: ./.github/actions/set-variable
+        with:
+          variableFileName: "qa"
 
       - name: OWASP ZAP Full Scan
         uses: zaproxy/action-full-scan@v0.8.0
