@@ -138,7 +138,7 @@ jobs:
           python performance-metrics/load-test.py ${{ env.host_ip }}:3000
 
   deploy-baking:
-    needs: [uat-tests]
+    needs: [load-testing]
     uses: CCDS-CSC-519/DevOps-Pipelines/.github/workflows/deploy-template.yml@master #Call the template file
     with:
       environment: "baking"
