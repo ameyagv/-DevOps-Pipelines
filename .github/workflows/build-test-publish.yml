@@ -38,7 +38,6 @@ jobs:
 
     - name: Run ansible-lint
       uses: ansible/ansible-lint@main
-      working-directory: ./playbooks
       continue-on-error: true
 
   publish:
