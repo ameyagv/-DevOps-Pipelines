@@ -16,8 +16,8 @@ on:
 
 jobs:
   #Release Job
-  setup-infra:
-    name: Setup ${{ inputs.environment }} Infra # Name of the job
+  setup-deploy:
+    name: Setup ${{ inputs.environment }} Infra and Deploy App # Name of the job
     runs-on: [ self-hosted ] # The type of runner that the job will run on
     steps:
       - name: Checkout Repository #Checkout the Repository into the agent
@@ -46,37 +46,6 @@ jobs:
           ANSIBLE_HOST_KEY_CHECKING: false
         run: ansible-playbook -i ./playbooks/hosts.yml -l ${{ env.host_group }} ./playbooks/setup-docker.yml
 
-  deploy-app:
-    runs-on: [ self-hosted ]
-    needs: setup-infra
-    environment: # Environment to which the application will be deployed.
-      name: ${{ inputs.environment }}
-      url: 'http://${{ env.host_ip }}:3000'
-    env:
-      DOCKER_USER: ${{ secrets.PUBLIC_REPO_USERNAME }}
-      DOCKER_PASSWORD: ${{ secrets.PUBLIC_REPO_PASSWORD }}
-    steps:
-      - name: Checkout Repository #Checkout the Repository into the agent
-        uses: actions/checkout@v3
-        with:
-          ref: ''
-
-      - name: Install jq
-        run: sudo apt-get install jq -y
-
-      - name: Set Environment Variables - ${{ inputs.environment }} # Set Variables based on environment
-        uses: ./.github/actions/set-variable
-        with:
-          variableFileName: "${{ inputs.environment }}"
-
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.10'  
-          
-      - name: Install Ansible
-        run: pip install ansible
-      
       - name: Deploy coffee project using Ansible
         run: ansible-playbook -i ./playbooks/hosts.yml -l ${{ env.host_group }} -e "run_on_host=${{ env.host_group }} docker_user=$DOCKER_USER docker_password=$DOCKER_PASSWORD" ./playbooks/deploy-application.yml
         
