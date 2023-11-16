@@ -72,6 +72,10 @@ jobs:
           cache: 'npm'
           cache-dependency-path: ./coffee-project/package-lock.json
 
+      - name: Installing Dependency
+        run: npm install
+        working-directory: ./coffee-project
+
       - name: Run UI Tests
         run: |
           node test/ui-tests/*.test.js
