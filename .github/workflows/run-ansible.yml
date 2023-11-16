@@ -10,6 +10,7 @@ on:
   
 jobs:
   deploy-dev:
+    needs: [uat-tests]
     uses: CCDS-CSC-519/DevOps-Pipelines/.github/workflows/deploy-template.yml@master #Call the template file
     with:
       environment: "dev"
@@ -112,7 +113,7 @@ jobs:
       PUBLIC_REPO_PASSWORD: ${{ secrets.PUBLIC_REPO_PASSWORD }}
 
   uat-tests:
-    needs: [deploy-uat]
+    #needs: [deploy-uat]
     runs-on: [ self-hosted ]
     steps:
       - name: Checkout
@@ -122,6 +123,12 @@ jobs:
         uses: ./.github/actions/set-variable
         with:
           variableFileName: "uat"
+
+      #Setup Python
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
 
       - name: Run Load Tests
         run: |
