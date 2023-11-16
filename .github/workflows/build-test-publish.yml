@@ -36,6 +36,11 @@ jobs:
       working-directory: ./coffee-project
       run: npx jest --coverage --forceExit test/app.test.js
 
+    - name: Run ansible-lint
+      uses: ansible/ansible-lint@main
+      working-directory: ./playbooks
+      continue-on-error: true
+
   publish:
     needs: build
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development' || github.event_name == 'workflow_dispatch'

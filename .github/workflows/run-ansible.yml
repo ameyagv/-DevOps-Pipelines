@@ -16,3 +16,35 @@ jobs:
     secrets:
       PUBLIC_REPO_USERNAME: ${{ secrets.PUBLIC_REPO_USERNAME }}
       PUBLIC_REPO_PASSWORD: ${{ secrets.PUBLIC_REPO_PASSWORD }}
+
+  deploy-qa:
+    needs: [deploy-dev]
+    uses: CCDS-CSC-519/DevOps-Pipelines/.github/workflows/deploy-template.yml@master #Call the template file
+    with:
+      environment: "qa"
+    secrets:
+      PUBLIC_REPO_USERNAME: ${{ secrets.PUBLIC_REPO_USERNAME }}
+      PUBLIC_REPO_PASSWORD: ${{ secrets.PUBLIC_REPO_PASSWORD }}
+
+  qa-tests:
+    needs: [deploy-qa]
+    runs-on: [ self-hosted ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Use Node.js v18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: 'npm'
+          cache-dependency-path: ./coffee-project/package-lock.json
+
+      - name: Installing Dependency
+        run: npm install
+        working-directory: ./coffee-project
+
+      - name: Run UI Tests
+        run: |
+          node test/ui-tests/*.test.js
+        working-directory: ./coffee-project
