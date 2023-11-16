@@ -61,4 +61,4 @@ jobs:
           target: "http://${{ env.host_ip }}:3000"
           # The action status will be set to fail if ZAP identifies any alerts during the full scan
           fail_action: false
-          issue_title: "OWASP ZAP Scan"
+          allow_issue_writing: false
