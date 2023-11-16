@@ -41,7 +41,7 @@ async def main():
     server1_username = str(sys.argv[3])
     server1_password = str(sys.argv[4])
 
-    server2_address = str(argv[2])
+    server2_address = str(sys.argv[2])
     server2_username = str(sys.argv[3])
     server2_password = str(sys.argv[4])
 
