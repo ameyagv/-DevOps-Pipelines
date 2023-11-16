@@ -123,6 +123,16 @@ jobs:
         with:
           variableFileName: "uat"
 
+      #Setup Python
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+
+      #Install requirements
+      - name: Install requirements
+        run: pip install -r performance-metrics/requirements.txt
+
       - name: Run Load Tests
         run: |
           python performance-metrics/load-test.py ${{ env.host_ip }}:3000
