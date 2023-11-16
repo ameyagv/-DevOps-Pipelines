@@ -111,7 +111,7 @@ jobs:
       PUBLIC_REPO_USERNAME: ${{ secrets.PUBLIC_REPO_USERNAME }}
       PUBLIC_REPO_PASSWORD: ${{ secrets.PUBLIC_REPO_PASSWORD }}
 
-  uat-tests:
+  load-testing:
     needs: [deploy-uat]
     runs-on: [ self-hosted ]
     steps:
@@ -137,19 +137,8 @@ jobs:
         run: |
           python performance-metrics/load-test.py ${{ env.host_ip }}:3000
 
-  manual-approval-uat:
-    name: Manual Approval
-    needs: [deploy-uat]
-    runs-on: [ self-hosted ]
-    environment: # Environment to which the application will be deployed.
-      name: manual-approval-uat
-    steps:
-      - name: Manual Checks Performed
-        run: |
-          echo "Manual Checks Performed"
-
   deploy-baking:
-    needs: [uat-tests, manual-approval-uat]
+    needs: [uat-tests]
     uses: CCDS-CSC-519/DevOps-Pipelines/.github/workflows/deploy-template.yml@master #Call the template file
     with:
       environment: "baking"
@@ -157,7 +146,7 @@ jobs:
       PUBLIC_REPO_USERNAME: ${{ secrets.PUBLIC_REPO_USERNAME }}
       PUBLIC_REPO_PASSWORD: ${{ secrets.PUBLIC_REPO_PASSWORD }}
 
-  baking-tests:
+  performance-tests:
     needs: [deploy-baking]
     runs-on: [ self-hosted ]
     steps:
@@ -171,17 +160,6 @@ jobs:
 
       - name: Run Performance Tests
         run: |
-          python performance-metrics/load-test.py ${{ env.host_ip }}:3000
-
-  manual-approval-baking:
-    name: Manual Approval
-    needs: [deploy-baking]
-    runs-on: [ self-hosted ]
-    environment: # Environment to which the application will be deployed.
-      name: manual-approval-baking
-    steps:
-      - name: Manual Checks Performed
-        run: |
-          echo "Manual Checks Performed"
+          echo "Performance Tests"
 
   
