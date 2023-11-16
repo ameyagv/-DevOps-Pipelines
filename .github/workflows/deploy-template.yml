@@ -19,6 +19,9 @@ jobs:
   setup-deploy:
     name: Setup ${{ inputs.environment }} Infra and Deploy App # Name of the job
     runs-on: [ self-hosted ] # The type of runner that the job will run on
+    environment: # Environment to which the application will be deployed.
+      name: ${{ inputs.environment }}
+      url: 'http://${{ env.host_ip }}:3000'
     steps:
       - name: Checkout Repository #Checkout the Repository into the agent
         uses: actions/checkout@v3
