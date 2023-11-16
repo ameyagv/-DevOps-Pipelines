@@ -33,6 +33,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Use Node.js v18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: 'npm'
+          cache-dependency-path: ./coffee-project/package-lock.json
+
+      - name: Installing Dependency
+        run: npm install
+        working-directory: ./coffee-project
+
       - name: Run UI Tests
         run: |
           node test/ui-tests/*.test.js
