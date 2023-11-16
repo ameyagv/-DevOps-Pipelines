@@ -10,7 +10,6 @@ on:
   
 jobs:
   deploy-dev:
-    needs: [uat-tests]
     uses: CCDS-CSC-519/DevOps-Pipelines/.github/workflows/deploy-template.yml@master #Call the template file
     with:
       environment: "dev"
@@ -113,7 +112,7 @@ jobs:
       PUBLIC_REPO_PASSWORD: ${{ secrets.PUBLIC_REPO_PASSWORD }}
 
   uat-tests:
-    #needs: [deploy-uat]
+    needs: [deploy-uat]
     runs-on: [ self-hosted ]
     steps:
       - name: Checkout
