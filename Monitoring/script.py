@@ -13,22 +13,32 @@ async def send_requests(server_url, num_requests):
         end_time = time.time()
         avg_response_time = (end_time - start_time) / num_requests * 1000  # Convert to milliseconds
         return avg_response_time
-
+    
+    
 def monitor_remote_resources(server_address, username, password, interval_seconds, cpu_usage, memory_usage):
     ssh_client = paramiko.SSHClient()
     ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     ssh_client.connect(server_address, username=username, password=password)
 
     while True:
-        cpu_stdin, cpu_stdout, _ = ssh_client.exec_command("mpstat 1 1 | awk '$12 ~ /[0-9.]+/ { print 100 - $12 }'")
-        cpu_percent = float(cpu_stdout.read().decode().strip())
+        cpu_stdin, cpu_stdout, cpu_stderr = ssh_client.exec_command("mpstat 1 1 | awk '$12 ~ /[0-9.]+/ { print 100 - $12 }'")
+        cpu_output = cpu_stdout.read().decode().strip()
+        print(f"CPU Output: {cpu_output}")
+        
+        mem_stdin, mem_stdout, mem_stderr = ssh_client.exec_command("free | awk 'FNR == 2 { print $3/$2*100 }'")
+        memory_output = mem_stdout.read().decode().strip()
+        print(f"Memory Output: {memory_output}")
 
-        mem_stdin, mem_stdout, _ = ssh_client.exec_command("free | awk 'FNR == 2 { print $3/$2*100 }'")
-        memory_percent = float(mem_stdout.read().decode().strip())
+        if cpu_output and memory_output:
+            cpu_percent = float(cpu_output)
+            memory_percent = float(memory_output)
 
-        print(f"Server {server_address} Resources - CPU Usage: {cpu_percent}%  |  Memory Usage: {memory_percent}%")
-        cpu_usage.append(cpu_percent)
-        memory_usage.append(memory_percent)
+            print(f"Server Resources - CPU Usage: {cpu_percent}%  |  Memory Usage: {memory_percent}%")
+            cpu_usage.append(cpu_percent)
+            memory_usage.append(memory_percent)
+        else:
+            print("Error: Unable to retrieve CPU or memory information")
+
         time.sleep(interval_seconds)
 
 async def main():
