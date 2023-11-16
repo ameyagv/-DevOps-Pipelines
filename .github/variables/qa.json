@@ -7,6 +7,10 @@
         {
             "name": "host_ip",
             "value": "152.7.177.160"
+        },
+        {
+            "name": "host_group",
+            "value": "dev_server"
         }
     ]
 }
