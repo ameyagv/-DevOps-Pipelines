@@ -15,23 +15,16 @@ async def send_requests(server_url, num_requests):
         return avg_response_time
     
     
-def install_sysstat(ssh_client):
-    stdin, stdout, stderr = ssh_client.exec_command("sudo apt-get update && sudo apt-get install -y sysstat")
-    print(stdout.read().decode())
-    print(stderr.read().decode())
-    
-    
+
 def monitor_remote_resources(server_address, username, password, interval_seconds, cpu_usage, memory_usage, duration_minutes):
     ssh_client = paramiko.SSHClient()
     ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     ssh_client.connect(server_address, username=username, password=password)
 
-    install_sysstat(ssh_client)
-
     start_time = time.time()
     end_time = start_time + (duration_minutes * 60)
 
-    while time.time() < end_time:
+    while time.time() <= end_time:
         # Get CPU Usage
         cpu_stdin, cpu_stdout, cpu_stderr = ssh_client.exec_command("top -bn1 | grep 'Cpu(s)' | sed \"s/.*, *\([0-9.]*\)%* id.*/\1/\" | awk '{print 100 - $1'%'}'
 ")
