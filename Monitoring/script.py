@@ -7,7 +7,10 @@ import matplotlib.pyplot as plt
 
 async def send_requests(server_url, request_rate):
     async with httpx.AsyncClient() as client:
-        while True:
+        start_time = time.time()
+        end_time = start_time + (duration_minutes * 60)
+
+        while time.time() <= end_time:
             await client.get(server_url)
             await asyncio.sleep(1 / request_rate)
 
@@ -77,7 +80,7 @@ def plot_comparison_graph(cpu_usage1, memory_usage1, cpu_usage2, memory_usage2, 
 async def main():
     server1_url = f"http://{sys.argv[1]}:3000"
     server2_url = f"http://{sys.argv[2]}:3000"
-    request_rate = 5         # requests per second
+    request_rate = 7         # requests per second
     monitoring_interval = 2  # seconds
     duration_minutes = 2     # minutes 
 
