@@ -5,7 +5,7 @@ import paramiko
 import sys
 import matplotlib.pyplot as plt
 
-async def send_requests(server_url, request_rate):
+async def send_requests(server_url, request_rate, duration_minutes):
     async with httpx.AsyncClient() as client:
         start_time = time.time()
         end_time = start_time + (duration_minutes * 60)
@@ -99,8 +99,8 @@ async def main():
     memory_usage_server2 = []
 
     tasks = [
-        asyncio.create_task(send_requests(server1_url, request_rate)),
-        asyncio.create_task(send_requests(server2_url, request_rate)),
+        asyncio.create_task(send_requests(server1_url, request_rate, duration_minutes)),
+        asyncio.create_task(send_requests(server2_url, request_rate, duration_minutes)),
         asyncio.create_task(monitor_remote_resources(server1_address, server1_username, server1_password, monitoring_interval, cpu_usage_server1, memory_usage_server1, duration_minutes)),
         asyncio.create_task(monitor_remote_resources(server2_address, server2_username, server2_password, monitoring_interval, cpu_usage_server2, memory_usage_server2, duration_minutes))
     ]
