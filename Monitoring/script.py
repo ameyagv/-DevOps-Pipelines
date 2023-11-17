@@ -52,7 +52,7 @@ async def monitor_remote_resources(server_address, username, password, interval_
 async def main():
     server1_url = "http://" + str(sys.argv[1]) + ":3000"
     server2_url = "http://" + str(sys.argv[2]) + ":3000"
-    num_requests = 1000
+    num_requests = 10000
     monitoring_interval = 5  # seconds
     duration_minutes = 2   # minutes 
 
@@ -92,7 +92,7 @@ async def main():
     plt.plot(cpu_usage_server1, label=server1_address)
     plt.plot(cpu_usage_server2, label=server2_address)
     plt.title('CPU Usage Comparison')
-    plt.xlabel('Time (5-second intervals)')
+    plt.xlabel(f'Time ({monitoring_interval}-second intervals)')
     plt.ylabel('CPU Usage (%)')
     plt.legend()
 
@@ -101,16 +101,11 @@ async def main():
     plt.plot(memory_usage_server1, label=server1_address)
     plt.plot(memory_usage_server2, label=server2_address)
     plt.title('Memory Usage Comparison')
-    plt.xlabel('Time (5-second intervals)')
+    plt.xlabel(f'Time ({monitoring_interval}-second intervals)')
     plt.ylabel('Memory Usage (%)')
     plt.legend()
 
-    # Average Response Time Comparison
-    plt.subplot(2, 1, 2)
-    plt.bar([server1_address, server2_address], [avg_response_time_server1, avg_response_time_server2], color=['blue', 'orange'])
-    plt.title('Average Response Time Comparison')
-    plt.ylabel('Average Response Time (ms)')
-
+    
     plt.tight_layout()
     plt.savefig('performance_comparison.png') 
     plt.show()
