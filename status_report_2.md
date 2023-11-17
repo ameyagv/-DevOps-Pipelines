@@ -128,25 +128,25 @@ We have made use of following GitHub features and some custom developed features
 
 ## Additional Project Scope
 
-1. Implementing a Multi-Stage Deployment Process encompassing key environments: Quality Assurance, User Acceptance, Baking, and Production.
+1. Implementing a Multi-Stage Deployment Process encompassing key environments: Quality Assurance, User Acceptance, Baking, and Production. [Completed]
 
-2. Conducting comprehensive tests at each stage to evaluate different facets of the application. Successful tests lead to progression to the next stage, accompanied by user notifications in case of failures.
+2. Conducting comprehensive tests at each stage to evaluate different facets of the application. Successful tests lead to progression to the next stage, accompanied by user notifications in case of failures. [Completed]
 
-3. Orchestrating a Production environment with three VCL machines, featuring one as a load balancer and the remaining two as application instances.
+3. Orchestrating a Production environment with three VCL machines, featuring one as a load balancer and the remaining two as application instances.  [In-progress]
 
-4. Configuration of a GitHub template to facilitate application deployment across diverse environments, ensuring the reusability of the pipeline.
+4. Configuration of a GitHub template to facilitate application deployment across diverse environments, ensuring the reusability of the pipeline. [Completed]
 
-5. Adding a security apect in the QA environment to identify and address vulnerabilities within the application.
+5. Adding a security apect in the QA environment to identify and address vulnerabilities within the application. [Completed]
 
-6. Implemntation of integration testing and UI testing in the QA environment.
+6. Implemntation of integration testing and UI testing in the QA environment. [Completed]
 
-7. Integration of a load testing script in the UAT environment to monitor the application's performance.
+7. Integration of a load testing script in the UAT environment to monitor the application's performance. [Completed]
 
-8. Implementation of monitoring mechanisms in the Baking and Production environments, focusing on CPU utilization and memory usage metrics before initiating production deployment.
+8. Implementation of monitoring mechanisms in the Baking and Production environments, focusing on CPU utilization and memory usage metrics before initiating production deployment. [In-progress]
 
-9. Adoption of a Blue-Green Deployment strategy for production releases, based on the metrics discussed in [8].
+9. Adoption of a Blue-Green Deployment strategy for production releases, based on the metrics discussed in [8]. [Next Sprint]
 
-10. Incorporating a robust rollback mechanism to revert to the previous release in the event of production errors post-deployment, within a predefined time slot.
+10. Incorporating a robust rollback mechanism to revert to the previous release in the event of production errors post-deployment, within a predefined time slot. [Next Sprint]
   
 
 ## Next Steps
