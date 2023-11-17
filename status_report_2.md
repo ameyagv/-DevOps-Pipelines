@@ -158,4 +158,12 @@ balancing setup for the production environment and allow for blue/green deployme
 - This will take about 40 hours of work as it involves setting up the ansible playbook for the load balancer and setup the appropriate algorithm for the same. Also another important part is to determine how the blue green deployment can be made possible in the current workflow.
 
 ## Retrospective
-
+### What worked
+1. Equal distribution of tasks such as load testing script, integration testing and UI testing.
+2. Planning before implementation of pipeline for execution of above tests in different environments.
+### What did not work
+1. The use of a single self-hosted runner led to bottlenecks, requiring waiting for other jobs to complete and slowing down the verification process for each change.
+2. For load testing we need to use asnychronous programming for gathering respone times which was challenging and time consuming for a small task.
+### Things to do differently
+1. Set up two or three GitHub Actions runners so mutiple jobs can run at the same time. This means less waiting and gets things done faster.
+2. Learn more on asynchronous programming which will be required for monitoring scipt for comparison of baking and production environment.
