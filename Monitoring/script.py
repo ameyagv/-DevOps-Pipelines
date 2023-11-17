@@ -33,7 +33,8 @@ def monitor_remote_resources(server_address, username, password, interval_second
 
     while time.time() < end_time:
         # Get CPU Usage
-        cpu_stdin, cpu_stdout, cpu_stderr = ssh_client.exec_command("mpstat 1 1 | awk 'NR==4 {print 100 - $12}'")
+        cpu_stdin, cpu_stdout, cpu_stderr = ssh_client.exec_command("top -bn1 | grep 'Cpu(s)' | sed \"s/.*, *\([0-9.]*\)%* id.*/\1/\" | awk '{print 100 - $1'%'}'
+")
         cpu_output = cpu_stdout.read().decode().strip()
         print(f"CPU Output: {cpu_output}")
 
