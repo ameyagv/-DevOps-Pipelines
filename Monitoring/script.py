@@ -50,8 +50,8 @@ async def monitor_remote_resources(server_address, username, password, interval_
 async def main():
     server1_url = "http://" + str(sys.argv[1]) + ":3000"
     server2_url = "http://" + str(sys.argv[2]) + ":3000"
-    request_rate = 2         # requests per second
-    monitoring_interval = 5  # seconds
+    request_rate = 5         # requests per second
+    monitoring_interval = 2  # seconds
     duration_minutes = 2   # minutes 
 
     server1_address = str(sys.argv[1])
@@ -91,7 +91,7 @@ async def main():
     plt.figure(figsize=(12, 6))
 
     # CPU Usage Comparison
-    plt.subplot(2, 2, 1)
+    plt.subplot(1, 2, 1)
     plt.plot(cpu_usage_server1, label=server1_address)
     plt.plot(cpu_usage_server2, label=server2_address)
     plt.title('CPU Usage Comparison')
@@ -100,7 +100,7 @@ async def main():
     plt.legend()
 
     # Memory Usage Comparison
-    plt.subplot(2, 2, 2)
+    plt.subplot(1, 2, 2)
     plt.plot(memory_usage_server1, label=server1_address)
     plt.plot(memory_usage_server2, label=server2_address)
     plt.title('Memory Usage Comparison')
