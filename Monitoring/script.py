@@ -73,11 +73,11 @@ async def main():
     avg_response_time_server2 = await send_requests(server2_url, num_requests)
 
      # Start monitoring resources on remote servers in separate threads
-    asyncio.create_task(
+    task1 = asyncio.create_task(
         monitor_remote_resources(server1_address, server1_username, server1_password, monitoring_interval,
                                   cpu_usage_server1, memory_usage_server1, duration_minutes)
     )
-    asyncio.create_task(
+    task2 = asyncio.create_task(
         monitor_remote_resources(server2_address, server2_username, server2_password, monitoring_interval,
                                   cpu_usage_server2, memory_usage_server2, duration_minutes)
     )
