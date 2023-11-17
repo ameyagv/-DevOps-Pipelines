@@ -1,6 +1,6 @@
 ---
 - name: Install and Configure Nginx Server
-  hosts: {{ run_on_host }}
+  hosts: "{{ run_on_host }}"
   become: yes
   become_method: sudo
   tasks:
