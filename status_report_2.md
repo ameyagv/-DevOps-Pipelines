@@ -1,5 +1,13 @@
 # Status Report 2 - 11/17/2023
 
+## Table of Contents
+
+- [Accomplishments](#accomplishments)
+- [Team Contributions](#team-contributions)
+- [Additional Project Scope](#additional-project-scope)
+- [Next Steps](#next-steps)
+- [Retrospective](#retrospective)
+
 ## Accomplishments
 
 Following work has been accomplished so far in setting up a DevOps infrastructure for the coffee project:
