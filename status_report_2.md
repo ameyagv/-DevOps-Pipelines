@@ -118,6 +118,29 @@ We have made use of following GitHub features and some custom developed features
 - All Commits: https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/commits?author=sgujar
 - Primary Contributions: Build, Test, Publish Workflow, GitHub Packages Setup, Ansible Playbooks, Load Testing Script ([commit]())
 
+## Additional Project Scope
+
+1. Implementing a Multi-Stage Deployment Process encompassing key environments: Quality Assurance, User Acceptance, Baking, and Production.
+
+2. Conducting comprehensive tests at each stage to evaluate different facets of the application. Successful tests lead to progression to the next stage, accompanied by user notifications in case of failures.
+
+3. Orchestrating a Production environment with three VCL machines, featuring one as a load balancer and the remaining two as application instances.
+
+4. Configuration of a GitHub template to facilitate application deployment across diverse environments, ensuring the reusability of the pipeline.
+
+5. Adding a security apect in the QA environment to identify and address vulnerabilities within the application.
+
+6. Implemntation of integration testing and UI testing in the QA environment.
+
+7. Integration of a load testing script in the UAT environment to monitor the application's performance.
+
+8. Implementation of monitoring mechanisms in the Baking and Production environments, focusing on CPU utilization and memory usage metrics before initiating production deployment.
+
+9. Adoption of a Blue-Green Deployment strategy for production releases, based on the metrics discussed in [8].
+
+10. Incorporating a robust rollback mechanism to revert to the previous release in the event of production errors post-deployment, within a predefined time slot.
+  
+
 ## Next Steps
 
 1. Ameya (agvaicha)
@@ -129,7 +152,9 @@ We have made use of following GitHub features and some custom developed features
 - This will take about 30-40 hours of work as it involves writing another step in the deployment workflow after the production deployment that runs after a certain wait time, and then runs the script created by Ameya. If the script fails, then the previous docker image will have to be pulled and deployed using Ansible, for this the ansible playbooks need to be modified.
 
 3. Subodh (sgujar)
-- Implement load balancing setup for the production environment and allow for blue/green deployment by using load balancer and two prod servers.
+- Implement 
+
+balancing setup for the production environment and allow for blue/green deployment by using load balancer and two prod servers.
 - This will take about 40 hours of work as it involves setting up the ansible playbook for the load balancer and setup the appropriate algorithm for the same. Also another important part is to determine how the blue green deployment can be made possible in the current workflow.
 
 ## Retrospective
