@@ -19,6 +19,8 @@ We currently have the following [branch protection rules](https://github.ncsu.ed
 
 ### Build, Test & Publish
 
+<img width="625" alt="image" src="https://media.github.ncsu.edu/user/26488/files/bbfe1857-cdc4-48e7-aa58-b4e4a2b3210e">
+
 Workflow: [build-test-publish.yml](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/blob/master/.github/workflows/build-test-publish.yml)
 
 This workflow has 2 stages:
@@ -40,6 +42,8 @@ This workflow has 2 stages:
         `if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development' || github.event_name == 'workflow_dispatch'`
 
 ### Deploy
+
+<img width="1021" alt="image" src="https://media.github.ncsu.edu/user/26488/files/2f654674-36e6-40ff-b828-4c3dddfc4bd7">
 
 #### Workflows: 
 
@@ -87,6 +91,8 @@ We have made use of following GitHub features and some custom developed features
 1. DEV: This stage we only setup infra and deploy the app in development environment.
 
 2. QA: Once dev succeds, we deploy app in QA environment and thus we run the following tests:
+
+    <img width="621" alt="image" src="https://media.github.ncsu.edu/user/26488/files/5bc4a9b8-fb81-44b6-b9b0-78be6399eb66">
 
     - [Integration Tests](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/blob/master/coffee-project/test/integration-tests/integration.test.js): We wrote integration tests for the coffee-project which invokes the deployed APIs and ensured the orders are placed successfully.
 
