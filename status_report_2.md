@@ -116,15 +116,15 @@ We have made use of the following GitHub features and some custom-developed feat
 
 1. Ameya (agvaicha)
 - All Commits: https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/commits?author=agvaicha
-- Primary Contributions: Ansible Playbooks, VCL setup and configuration, Deployment Workflow, Integration Tests ([commit]())
+- Primary Contributions: Ansible Playbooks, VCL setup and configuration, Deployment Workflow, Integration Tests ([commit](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/commit/f01de1a8e9ec299d20c56d9bf82acc317070e30f))
 
 2. Deep (dmmehta2)
 - All Commits: https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/commits?author=dmmehta2 + (Commits in name Deep Mehta)
-- Primary Contributions: Linting, Code Coverage, Workflow Templates, Variable Group Action, UI & OWASP Tests, Environment Setup ([commit]())
+- Primary Contributions: Linting, Code Coverage, Workflow Templates, Variable Group Action, UI & OWASP Tests, Environment Setup ([commit](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/pull/20))
 
 3. Subodh (sgujar)
 - All Commits: https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/commits?author=sgujar
-- Primary Contributions: Build, Test, Publish Workflow, GitHub Packages Setup, Ansible Playbooks, Load Testing Script ([commit]())
+- Primary Contributions: Build, Test, Publish Workflow, GitHub Packages Setup, Ansible Playbooks, Load Testing Script ([commit](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/commit/e9a4f2c340c062ff50c4ae413a9ba4f5051afe7a))
 
 ## Additional Project Scope
 
