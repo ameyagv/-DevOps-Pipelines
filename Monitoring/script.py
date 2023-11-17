@@ -82,13 +82,15 @@ async def main():
                                   cpu_usage_server2, memory_usage_server2, duration_minutes)
     )
 
+    await asyncio.gather(task1, task2)
+
     # Plotting the comparison graph
     plt.figure(figsize=(12, 6))
 
     # CPU Usage Comparison
     plt.subplot(2, 2, 1)
-    plt.plot(cpu_usage_server1, label='Server 1')
-    plt.plot(cpu_usage_server2, label='Server 2')
+    plt.plot(cpu_usage_server1, label=server1_address)
+    plt.plot(cpu_usage_server2, label=server2_address)
     plt.title('CPU Usage Comparison')
     plt.xlabel('Time (5-second intervals)')
     plt.ylabel('CPU Usage (%)')
@@ -96,8 +98,8 @@ async def main():
 
     # Memory Usage Comparison
     plt.subplot(2, 2, 2)
-    plt.plot(memory_usage_server1, label='Server 1')
-    plt.plot(memory_usage_server2, label='Server 2')
+    plt.plot(memory_usage_server1, label=server1_address)
+    plt.plot(memory_usage_server2, label=server2_address)
     plt.title('Memory Usage Comparison')
     plt.xlabel('Time (5-second intervals)')
     plt.ylabel('Memory Usage (%)')
@@ -105,7 +107,7 @@ async def main():
 
     # Average Response Time Comparison
     plt.subplot(2, 1, 2)
-    plt.bar(['Server 1', 'Server 2'], [avg_response_time_server1, avg_response_time_server2], color=['blue', 'orange'])
+    plt.bar([server1_address, server2_address], [avg_response_time_server1, avg_response_time_server2], color=['blue', 'orange'])
     plt.title('Average Response Time Comparison')
     plt.ylabel('Average Response Time (ms)')
 
