@@ -5,14 +5,12 @@ import paramiko
 import sys
 import matplotlib.pyplot as plt
 
-async def send_requests(server_url, num_requests):
+async def send_requests(server_url, request_rate):
     async with httpx.AsyncClient() as client:
-        start_time = time.time()
-        tasks = [client.get(server_url) for _ in range(num_requests)]
-        await asyncio.gather(*tasks)
-        end_time = time.time()
-        avg_response_time = (end_time - start_time) / num_requests * 1000  
-        return avg_response_time
+       async with httpx.AsyncClient() as client:
+        while True:
+            await client.get(server_url)
+            await asyncio.sleep(1 / request_rate)
     
     
 
@@ -52,7 +50,7 @@ async def monitor_remote_resources(server_address, username, password, interval_
 async def main():
     server1_url = "http://" + str(sys.argv[1]) + ":3000"
     server2_url = "http://" + str(sys.argv[2]) + ":3000"
-    num_requests = 10000
+    request_rate = 2         # requests per second
     monitoring_interval = 5  # seconds
     duration_minutes = 2   # minutes 
 
@@ -66,24 +64,29 @@ async def main():
 
     cpu_usage_server1 = []
     memory_usage_server1 = []
-    avg_response_time_server1 = await send_requests(server1_url, num_requests)
 
     cpu_usage_server2 = []
     memory_usage_server2 = []
-    avg_response_time_server2 = await send_requests(server2_url, num_requests)
 
+    
+    send_task1 = asyncio.create_task(send_requests(server1_url, request_rate))
+    send_task2 = asyncio.create_task(send_requests(server2_url, request_rate))
+    
      # Start monitoring resources on remote servers in separate threads
-    task1 = asyncio.create_task(
+    monitor_task1 = asyncio.create_task(
         monitor_remote_resources(server1_address, server1_username, server1_password, monitoring_interval,
                                   cpu_usage_server1, memory_usage_server1, duration_minutes)
     )
-    task2 = asyncio.create_task(
+    monitor_task2 = asyncio.create_task(
         monitor_remote_resources(server2_address, server2_username, server2_password, monitoring_interval,
                                   cpu_usage_server2, memory_usage_server2, duration_minutes)
     )
 
-    await asyncio.gather(task1, task2)
+    await asyncio.gather(monitor_task1, monitor_task2)
 
+    send_task1.cancel()
+    send_task2.cancel()
+    
     # Plotting the comparison graph
     plt.figure(figsize=(12, 6))
 
