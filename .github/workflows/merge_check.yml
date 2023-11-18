@@ -7,7 +7,7 @@ on:
 
 jobs:
   check_branch:
-    runs-on: ubuntu-latest
+    runs-on: [ self-hosted ]
     steps:
       - name: Merge check for master
         if: github.base_ref == 'master' && (github.head_ref == 'release' || github.head_ref == 'hotfix')
