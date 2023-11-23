@@ -1,0 +1,20 @@
+---
+- name: Update NGINX Configuration
+  hosts: "{{ run_on_host }}"
+  become: true
+
+  vars:
+    target_ip: "{{ server_ip }}" 
+  tasks:
+    - name: Comment out the server line with specific IP
+      lineinfile:
+        path: /etc/nginx/nginx.conf
+        regexp: '^(\s*server\s+{{ target_ip }}:3000;)'
+        line: '# server {{ target_ip }}:3000;'
+      register: comment_result
+
+    - name: Reload NGINX if changes were made
+      service:
+        name: nginx
+        state: reloaded
+      when: comment_result.changed
