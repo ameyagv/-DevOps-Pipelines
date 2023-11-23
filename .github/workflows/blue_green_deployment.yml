@@ -1,0 +1,44 @@
+name: Production Blue Green Deployment
+on:
+  workflow_dispatch:
+    secrets:
+      PUBLIC_REPO_USERNAME:
+        required: true
+      PUBLIC_REPO_PASSWORD:
+        required: true
+
+jobs:
+  deploy_prod_server_1:
+    name: Deploying to production servers
+    runs-on: [ self-hosted ] 
+    env:
+      DOCKER_USER: ${{ secrets.PUBLIC_REPO_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.PUBLIC_REPO_PASSWORD }}
+    steps:
+      - name: Checkout Repository 
+        uses: actions/checkout@v3
+        with:
+          ref: ''
+
+      - name: Install jq
+        run: sudo apt-get install jq -y
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'  
+          
+      - name: Install Ansible
+        run: pip install ansible
+  
+      - name: Deploy application on production server 1
+        env:
+          ANSIBLE_HOST_KEY_CHECKING: false
+        run: ansible-playbook -i ./playbooks/hosts.yml -e "run_on_host=dev_server production_server=prod_server_1 docker_user=$DOCKER_USER docker_password=$DOCKER_PASSWORD" ./playbooks/deploy-production.yml
+      
+      - name: Deploy application on production server 2
+        env:
+          ANSIBLE_HOST_KEY_CHECKING: false
+        run: ansible-playbook -i ./playbooks/hosts.yml -e "run_on_host=dev_server production_server=prod_server_2 docker_user=$DOCKER_USER docker_password=$DOCKER_PASSWORD" ./playbooks/deploy-production.yml
+
+      
