@@ -1,0 +1,21 @@
+---
+- name: Revert NGINX Configuration
+  hosts: "{{ run_on_host }}"  
+  become: true
+
+  vars:
+    target_ip: "{{ server_ip }}"
+
+  tasks:
+    - name: Uncomment the server line with specific IP
+      lineinfile:
+        path: /etc/nginx/nginx.conf
+        regexp: '^(\s*# server\s+{{ target_ip }}:3000;)'
+        line: 'server {{ target_ip }}:3000;'
+      register: uncomment_result
+
+    - name: Reload NGINX if changes were made
+      service:
+        name: nginx
+        state: reloaded
+      when: uncomment_result.changed
