@@ -11,6 +11,10 @@
         {
             "name": "host_group",
             "value": "dev_server"
+        },
+        {
+            "name": "image_tag",
+            "value": "dev"
         }
     ]
 }
