@@ -24,7 +24,7 @@ jobs:
         pip install httpx paramiko matplotlib
 
     - name: Run performance comparison
-      run: python script.py 152.7.177.160 152.7.177.160 "$VCL_USERNAME" "$VCL_PASSWORD"
+      run: python script.py 152.7.177.160 152.7.177.160 "$VCL_USERNAME" "$VCL_PASSWORD" 2
       working-directory: ./Monitoring/
 
     - name: Upload artifacts
