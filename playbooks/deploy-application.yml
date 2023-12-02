@@ -6,12 +6,13 @@
   vars:
     docker_user: "{{ docker_user }}"
     docker_password: "{{ docker_password }}"
+    image_version: "{{ image_version }}"
   tasks:
   - name: Login to docker
     shell: "echo {{ docker_password }} | docker login ghcr.io -u {{ docker_user }} --password-stdin"
     
   - name: Pull Docker image
-    shell: "docker pull ghcr.io/subodh30/coffee-project:latest"
+    shell: "docker pull ghcr.io/subodh30/coffee-project:{{ image_version }}"
     
   - name: Stop container if running
     shell: "docker stop coffee-app || true"
@@ -22,4 +23,4 @@
     ignore_errors: yes
     
   - name: Run application
-    shell: "docker run -d -p 3000:3000 --name coffee-app ghcr.io/subodh30/coffee-project:latest"
+    shell: "docker run -d -p 3000:3000 --name coffee-app ghcr.io/subodh30/coffee-project:{{ image_version }}"
