@@ -114,14 +114,14 @@ async def main():
     
     if avg_cpu_1 > (avg_cpu_2 * 1.25):
         raise Exception("CPU usage is higher than production")
-        exit 1
+        sys.exit(1)
         
     avg_mem_1 = sum(memory_usage_server1) / len(memory_usage_server1)
     avg_mem_2 = sum(memory_usage_server2) / len(memory_usage_server2)
     
     if avg_mem_1 > (avg_mem_2 * 1.25):
         raise Exception("Memory usage is higher than production")
-        exit 1
+        sys.exit(1)
         
         
 
