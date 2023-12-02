@@ -10,7 +10,7 @@ jobs:
     runs-on: [ self-hosted ]
     steps:
       - name: Merge check for master
-        if: github.base_ref == 'master' && (github.head_ref == 'release' || github.head_ref == 'hotfix')
+        if: github.base_ref == 'master' && github.head_ref != 'release' && github.head_ref != 'hotfix'
         run: |
           echo "ERROR: You can ONLY merge to master from release/hotfix."
           exit 1
