@@ -24,12 +24,12 @@ jobs:
         pip install httpx paramiko matplotlib
 
     - name: Run performance comparison
-      run: python script.py 152.7.177.160 152.7.177.160 "$VCL_USERNAME" "$VCL_PASSWORD" 2
-      working-directory: ./Monitoring/
+      run: python performance-test.py 152.7.177.160 152.7.177.160 "$VCL_USERNAME" "$VCL_PASSWORD" 2
+      working-directory: ./performance-metrics/
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
         name: performance_comparison
-        path: ./Monitoring/performance_comparison.png
+        path: ./performance-metrics/performance_comparison.png
 
