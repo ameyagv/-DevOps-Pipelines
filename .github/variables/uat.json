@@ -11,6 +11,10 @@
         {
             "name": "host_group",
             "value": "uat_server"
+        },
+        {
+            "name": "image_tag",
+            "value": "latest"
         }
     ]
 }

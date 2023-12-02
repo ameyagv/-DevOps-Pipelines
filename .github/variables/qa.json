@@ -11,6 +11,10 @@
         {
             "name": "host_group",
             "value": "qa_server"
+        },
+        {
+            "name": "image_tag",
+            "value": "latest"
         }
     ]
 }
