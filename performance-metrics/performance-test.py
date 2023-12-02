@@ -11,8 +11,15 @@ async def send_requests(server_url, request_rate, duration_minutes):
         end_time = start_time + (duration_minutes * 60)
 
         while time.time() <= end_time:
-            await client.get(server_url)
+            try:
+                response = await client.get(server_url)
+                if response.status_code != 200:
+                    print(f"HTTP request to {server_url} failed with status code {response.status_code}")
+            except Exception as e:
+                print(f"Error during HTTP request to {server_url}: {e}")
+
             await asyncio.sleep(1 / request_rate)
+
 
 async def monitor_remote_resources(server_address, username, password, interval_seconds, cpu_usage, memory_usage, duration_minutes):
     ssh_client = paramiko.SSHClient()
