@@ -1,0 +1,34 @@
+name: Rollback to previous version
+on:
+  workflow_dispatch:
+    inputs:
+      rollback_image_version:
+          description: 'Rollback Image Version'
+          required: true
+          default: ''
+
+jobs:
+  rollback:
+    runs-on: [ self-hosted ]
+    environment: # Environment to which the application will be deployed.
+      name: rollback
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set Environment Variables # Set Variables based on environment
+        uses: ./.github/actions/set-variable
+        with:
+          variableFileName: "prd"
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'  
+          
+      - name: Install Ansible
+        run: pip install ansible
+
+      - name: Rollback Prod Servers
+        run: |
+          echo "${{ github.event.inputs.rollback_image_version }}"

@@ -2,11 +2,6 @@ name: Deploy
 
 on:
   workflow_dispatch:
-    inputs:
-      rollback_image_version:
-        description: 'Rollback Image Version'
-        required: true
-        default: ''
   workflow_run:
     workflows: ["Build, Test & Publish"]
     branches: [master]
@@ -203,11 +198,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'  
+          
+      - name: Install Ansible
+        run: pip install ansible
+
       - name: Run Ansible playbook
         run: |
           ansible-playbook -i ./playbooks/hosts.yml -l load_balancer_server -e "run_on_host=load_balancer_server" ./playbooks/deploy-nginx.yml
 
-  blue-green-deployment:
+  prod-deployment:
     needs: [setup-load-balancer]
     runs-on: [ self-hosted ]
     environment: # Environment to which the application will be deployed.
@@ -216,24 +219,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'  
+          
+      - name: Install Ansible
+        run: pip install ansible
+
       - name: Run Ansible playbook
         run: |
           echo "Deploy"
-
-  rollback:
-    needs: [blue-green-deployment]
-    runs-on: [ self-hosted ]
-    environment: # Environment to which the application will be deployed.
-      name: rollback
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Set Environment Variables # Set Variables based on environment
-        uses: ./.github/actions/set-variable
-        with:
-          variableFileName: "prd"
-
-      - name: Rollback Prod Servers
-        run: |
-          echo "${{ github.event.inputs.rollback_image_version }}"
