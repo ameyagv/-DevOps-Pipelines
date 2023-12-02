@@ -108,6 +108,23 @@ async def main():
     await asyncio.gather(*tasks)
 
     plot_comparison_graph(cpu_usage_server1, memory_usage_server1, cpu_usage_server2, memory_usage_server2, server1_address, server2_address, monitoring_interval)
+    
+    avg_cpu_1 = sum(cpu_usage_server1) / len(cpu_usage_server1)
+    avg_cpu_2 = sum(cpu_usage_server2) / len(cpu_usage_server2)
+    
+    if avg_cpu_1 > (avg_cpu_2 * 1.25):
+        raise Exception("CPU usage is higher than production")
+        exit 1
+        
+    avg_mem_1 = sum(memory_usage_server1) / len(memory_usage_server1)
+    avg_mem_2 = sum(memory_usage_server2) / len(memory_usage_server2)
+    
+    if avg_mem_1 > (avg_mem_2 * 1.25):
+        raise Exception("Memory usage is higher than production")
+        exit 1
+        
+        
+
 
 if __name__ == "__main__":
     asyncio.run(main())
