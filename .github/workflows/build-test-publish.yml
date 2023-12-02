@@ -50,7 +50,9 @@ jobs:
     # Check if not pull request
     if: github.event_name != 'pull_request'
     runs-on: [ self-hosted ]
-  
+    env:
+      # Set the tag to the image tag input if it is not empty or latest
+      DOCKER_IMAGE_TAG: ${{ github.event.inputs.image_tag || 'latest' }}
     steps:
       - name: Checkout the repo
         uses: actions/checkout@v2
@@ -72,12 +74,12 @@ jobs:
           context: ./coffee-project
           file: ./coffee-project/Dockerfile
           load: true
-          tags: ghcr.io/${{ secrets.PUBLIC_REPO_USERNAME }}/coffee-project:${{ inputs.image_tag }}
+          tags: ghcr.io/${{ secrets.PUBLIC_REPO_USERNAME }}/coffee-project:${{ env.DOCKER_IMAGE_TAG }}
     
       - name: Push Docker image to Public GitHub Packages - Master
         if: github.ref == 'refs/heads/master'
         run: |
-          docker push ghcr.io/${{ secrets.PUBLIC_REPO_USERNAME }}/coffee-project:${{ inputs.image_tag }}
+          docker push ghcr.io/${{ secrets.PUBLIC_REPO_USERNAME }}/coffee-project:${{ env.DOCKER_IMAGE_TAG }}
 
       - name: Build Docker image - Dev
         if: github.ref != 'refs/heads/master'

@@ -236,4 +236,4 @@ jobs:
 
       - name: Rollback Prod Servers
         run: |
-          echo "${{ inputs.rollback_image_version }}"
+          echo "${{ github.event.inputs.rollback_image_version }}"
