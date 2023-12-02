@@ -80,9 +80,9 @@ def plot_comparison_graph(cpu_usage1, memory_usage1, cpu_usage2, memory_usage2, 
 async def main():
     server1_url = f"http://{sys.argv[1]}:3000"
     server2_url = f"http://{sys.argv[2]}:3000"
-    request_rate = 7         # requests per second
+    request_rate = 20         # requests per second
     monitoring_interval = 2  # seconds
-    duration_minutes = 2     # minutes 
+    duration_minutes = int(sys.argv[5])     # minutes 
 
     server1_address = str(sys.argv[1])
     server1_username = str(sys.argv[3])
