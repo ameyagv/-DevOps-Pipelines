@@ -2,6 +2,11 @@ name: Build, Test & Publish
 
 on:
   workflow_dispatch:
+    inputs:
+      image_tag:
+        description: 'Image tag'
+        required: false
+        default: 'latest'
   push:
     branches: [ "master" ]
     tags: [ 'v*.*.*' ]
@@ -42,7 +47,8 @@ jobs:
 
   publish:
     needs: build
-    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development' || github.event_name == 'workflow_dispatch'
+    # Check if not pull request
+    if: github.event_name != 'pull_request'
     runs-on: [ self-hosted ]
   
     steps:
@@ -66,14 +72,14 @@ jobs:
           context: ./coffee-project
           file: ./coffee-project/Dockerfile
           load: true
-          tags: ghcr.io/${{ secrets.PUBLIC_REPO_USERNAME }}/coffee-project:latest
+          tags: ghcr.io/${{ secrets.PUBLIC_REPO_USERNAME }}/coffee-project:${{ inputs.image_tag }}
     
       - name: Push Docker image to Public GitHub Packages - Master
         if: github.ref == 'refs/heads/master'
         run: |
-          docker push ghcr.io/${{ secrets.PUBLIC_REPO_USERNAME }}/coffee-project:latest
+          docker push ghcr.io/${{ secrets.PUBLIC_REPO_USERNAME }}/coffee-project:${{ inputs.image_tag }}
 
-      - name: Build Docker image
+      - name: Build Docker image - Dev
         if: github.ref != 'refs/heads/master'
         uses: docker/build-push-action@v2
         with:
@@ -82,7 +88,7 @@ jobs:
           load: true
           tags: ghcr.io/${{ secrets.PUBLIC_REPO_USERNAME }}/coffee-project:dev
       
-      - name: Push Docker image to Public GitHub Packages
+      - name: Push Docker image to Public GitHub Packages - Dev
         if: github.ref != 'refs/heads/master'
         run: |
           docker push ghcr.io/${{ secrets.PUBLIC_REPO_USERNAME }}/coffee-project:dev
