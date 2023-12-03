@@ -5,11 +5,15 @@ on:
       rollback_image_version:
           description: 'Rollback Image Version'
           required: true
-          default: ''
+          default: 'v1.0.1'
 
 jobs:
   rollback:
     runs-on: [ self-hosted ]
+    env:
+      DOCKER_USER: ${{ secrets.PUBLIC_REPO_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.PUBLIC_REPO_PASSWORD }}
+      IMAGE_VERSION: ${{ github.event.inputs.rollback_image_version }}
     environment: # Environment to which the application will be deployed.
       name: rollback
     steps:
@@ -29,6 +33,10 @@ jobs:
       - name: Install Ansible
         run: pip install ansible
 
-      - name: Rollback Prod Servers
-        run: |
-          echo "${{ github.event.inputs.rollback_image_version }}"
+      - name: Deploy application on production server 1
+        run: ansible-playbook -i hosts.yml deploy-production.yml -e "run_on_host=prod_server_1 production_server=152.7.177.223 docker_user=$DOCKER_USER docker_password=$DOCKER_PASSWORD image_version=$IMAGE_VERSION"
+        working-directory: ./playbooks
+        
+      - name: Deploy application on production server 2
+        run: ansible-playbook -i hosts.yml deploy-production.yml -e "run_on_host=prod_server_2 production_server=152.7.179.1 docker_user=$DOCKER_USER docker_password=$DOCKER_PASSWORD image_version=$IMAGE_VERSION"
+        working-directory: ./playbooks
