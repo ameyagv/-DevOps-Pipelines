@@ -1,9 +1,4 @@
 ---
-# - name: Production Deployment
-#   hosts: "{{ run_on_host }}"
-#   become: yes
-#   become_method: sudo
-
 - name: Remove production server from NGINX configuration
   import_playbook: comment_nginx.yml
   vars: 
