@@ -26,7 +26,7 @@ The aim of this project is to design and implement DevOps automation using tools
 
 ## Demo Video
 
-https://media.github.ncsu.edu/user/26488/files/d1fcd6c9-b4bd-4641-9bc0-f0231593e045
+https://media.github.ncsu.edu/user/26488/files/13035c98-db45-4ca0-9fb6-e985997730c4
 
 
 ## Work Done
