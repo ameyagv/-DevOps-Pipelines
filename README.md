@@ -3,7 +3,7 @@
 
 [![Build, Test & Publish](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/actions/workflows/build-test-publish.yml/badge.svg)](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/actions/workflows/build-test-publish.yml)
 
-[![Deploy](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/actions/workflows/run-ansible.yml/badge.svg)](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/actions/workflows/run-ansible.yml)
+[![Deploy](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/actions/workflows/deploy.yml/badge.svg)](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/actions/workflows/deploy.yml)
 
 ###  "From Code Chaos to Deployment Symphony"
 
@@ -12,10 +12,48 @@
 1. [Project Proposal](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/wiki/Project-Proposal)
 2. [Status Report 1](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/blob/master/status-report-1.md)
 3. [Status Report 2](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/blob/master/status_report_2.md)
+4. [Final Report]()
 
 ## Pipeline Design
 
 ![High Level Pipeline](https://media.github.ncsu.edu/user/26488/files/bc26c9ab-1e09-4d06-9e99-50cd25b7a0e1)
+
+
+## Work Done
+
+### Coffee Project
+
+- Added [Integration tests](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/blob/master/coffee-project/test/integration-tests/integration.test.js)
+- Added [UI tests](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/blob/master/coffee-project/test/ui-tests/ui.test.js) with headless driver
+
+### Ansible Playbooks
+
+   - [setup-docker.yml](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/blob/master/playbooks/setup-docker.yml) - This is responsible for setting up the infrastructure in the vcl, i.e. required packages and docker
+   - [deploy-application.yml](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/blob/master/playbooks/deploy-application.yml) - This is responsible for pulling the docker image from GitHub packages and deploying it onto the host
+   - [open-port.yml](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/blob/master/playbooks/open-port.yml) - This is responsible for opening up port 3000 so that the website is accessible over the internet.
+  - [comment_nginx.yml](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/blob/master/playbooks/comment_nginx.yml) - The playbook updates the NGINX configuration on the load balancer used by the blue-green deployment as well as rollback by commenting out a specific server line with the target IP and then restarting the NGINX service.
+  - [uncomment_nginx.yml](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/blob/master/playbooks/uncomment_nginx.yml) - This reverts the NGINX configuration by uncommenting the server line in the NGINX default file.
+
+  - [deploy-nginx.yml](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/blob/master/playbooks/deploy-nginx.yml) - This configures the vcl as an NGINX web server, exposes the port 80, restarts the server.
+  - [deploy-production.yml](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/blob/master/playbooks/deploy-production.yml) - This orchestrates the deployment process for a production server, first removing it from the NGINX configuration, setting up Docker, deploying an application, opening a port, and then adding the production server back to the NGINX configuration.
+
+- [hosts.yml](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/blob/master/playbooks/hosts.yml) - Inventory file with a list of IP addresses of all environments.
+
+
+
+### Variables
+
+### Actions (Set-variable)
+
+
+### Workflows
+
+- [Build and Publish](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/blob/master/.github/workflows/build-test-publish.yml): This workflow builds aplications, perofrms unit testing, linting checks and uploades docker image to public github container registery.
+- [deploy.yml](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/blob/master/.github/workflows/deploy.yml): This is the main deployment workflow that is responsible for invoking templates and deploying app to different environments.
+- [deploy-template.yml](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/blob/master/.github/workflows/deploy-template.yml): This is a template workflow which plays an important role in ensuring consistent deployment across environments.
+- [rollback.yml](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/blob/master/.github/workflows/rollback.yml): This workflow allows to deploy a previous stable docker image directly to production environment in case of emergencies when the new features might have caused issues in production environment.
+
+
 
 ## Mentors
 - Prof. John-Paul Ore (jwore)
