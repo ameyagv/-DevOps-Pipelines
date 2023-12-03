@@ -10,7 +10,7 @@
   vars:
     run_on_host: "{{ production_server }}"
 
-- name: Deploy Application to prod_1 server
+- name: Deploy Application to production server
   import_playbook: deploy-application.yml
   vars:
     run_on_host: "{{ production_server }}"
