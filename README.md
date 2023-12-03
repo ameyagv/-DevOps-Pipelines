@@ -7,12 +7,16 @@
 
 ###  "From Code Chaos to Deployment Symphony"
 
+Software products rely on two main pillars: Development and Operations. In the past, these pillars had separate roles and worked in isolation. DevOps is the key to bridging this gap by making the developer who creates the feature also responsible for deploying it to production. This approach has proven to be very effective and popular in the industry and has been adopted by many large software companies.
+
+The aim of this project is to design and implement DevOps automation using tools like GitHub Actions and Ansible, which enable developers to deliver their features with confidence and efficiency.
+
 ## Deliverables
 
 1. [Project Proposal](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/wiki/Project-Proposal)
 2. [Status Report 1](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/blob/master/status-report-1.md)
 3. [Status Report 2](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/blob/master/status_report_2.md)
-4. [Final Report]()
+4. [Final Report](./Final_Report.pdf)
 
 ## Pipeline Design
 
@@ -39,12 +43,11 @@
 
 - [hosts.yml](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/blob/master/playbooks/hosts.yml) - Inventory file with a list of IP addresses of all environments.
 
-
-
-### Variables
-
 ### Actions (Set-variable)
 
+- [Variables](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/tree/master/.github/variables): This folder contains all the variable json files that are used in the workflows.
+
+- [set-variables.yml](https://github.ncsu.edu/CCDS-CSC-519/DevOps-Pipelines/blob/master/.github/actions/set-variables.yml): This action is responsible for setting up the variables for the workflows. It takes the input as the environment name and sets up the variables for that environment.
 
 ### Workflows
 
