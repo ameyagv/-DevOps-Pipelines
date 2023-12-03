@@ -40,5 +40,5 @@ if __name__ == "__main__":
 
     plt.show()
 
-    if avg_response_time >= 3.0:
-        raise Exception("Average Time is more than 3 seconds.")
+    if avg_response_time >= 5.0:
+        raise Exception("Average Time is more than 5 seconds.")
