@@ -1,6 +1,6 @@
 ---
 - name: Deploy app to Development server
-  hosts: all
+  hosts: "{{ run_on_host }}"
   become: true
   vars:
     container_count: 4
