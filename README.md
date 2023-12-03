@@ -20,7 +20,9 @@ The aim of this project is to design and implement DevOps automation using tools
 
 ## Pipeline Design
 
-![High Level Pipeline](https://media.github.ncsu.edu/user/26488/files/bc26c9ab-1e09-4d06-9e99-50cd25b7a0e1)
+![High Level Pipeline](https://media.github.ncsu.edu/user/26488/files/b3d5d640-4f3c-4dad-8188-c7bd5b2c9497)
+
+![Deployment](https://media.github.ncsu.edu/user/26488/files/cbeded6a-edae-4c44-85c7-884c581d7405)
 
 
 ## Work Done
