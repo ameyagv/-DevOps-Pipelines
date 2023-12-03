@@ -1,0 +1,29 @@
+name: Setup Load balancer
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: [ self-hosted ]
+#     strategy:
+#       matrix:
+#         os: [ubuntu-20.04]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Install Ansible
+        run: |
+          pip install ansible
+      - name: Run Ansible playbook
+        run: |
+          ansible-playbook -i ./playbooks/hosts.yml -l load_balancer_server -e "run_on_host=load_balancer_server" ./playbooks/deploy-nginx.yml
+        env:
+          ANSIBLE_HOST_KEY_CHECKING: "False"
