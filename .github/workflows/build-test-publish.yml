@@ -94,3 +94,6 @@ jobs:
         if: github.ref != 'refs/heads/master'
         run: |
           docker push ghcr.io/${{ secrets.PUBLIC_REPO_USERNAME }}/coffee-project:dev
+
+      - name: Docker image prune
+        run: docker image prune -f
