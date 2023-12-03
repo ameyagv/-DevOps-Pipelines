@@ -34,11 +34,11 @@ jobs:
       - name: Deploy application on production server 1
         env:
           ANSIBLE_HOST_KEY_CHECKING: false
-        run: ansible-playbook -i ./playbooks/hosts.yml -e "run_on_host=dev_server production_server=prod_server_1 docker_user=$DOCKER_USER docker_password=$DOCKER_PASSWORD" ./playbooks/deploy-production.yml
+        run: ansible-playbook -i ./playbooks/hosts.yml -e "run_on_host=dev_server production_server=152.7.177.223 docker_user=$DOCKER_USER docker_password=$DOCKER_PASSWORD" ./playbooks/deploy-production.yml
       
       - name: Deploy application on production server 2
         env:
           ANSIBLE_HOST_KEY_CHECKING: false
-        run: ansible-playbook -i ./playbooks/hosts.yml -e "run_on_host=dev_server production_server=prod_server_2 docker_user=$DOCKER_USER docker_password=$DOCKER_PASSWORD" ./playbooks/deploy-production.yml
+        run: ansible-playbook -i ./playbooks/hosts.yml -e "run_on_host=dev_server production_server=152.7.179.1 docker_user=$DOCKER_USER docker_password=$DOCKER_PASSWORD" ./playbooks/deploy-production.yml
 
       
