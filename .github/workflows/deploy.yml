@@ -213,6 +213,10 @@ jobs:
   prod-deployment:
     needs: [setup-load-balancer]
     runs-on: [ self-hosted ]
+    env:
+      DOCKER_USER: ${{ secrets.PUBLIC_REPO_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.PUBLIC_REPO_PASSWORD }}
+      IMAGE_VERSION: 'latest'
     environment: # Environment to which the application will be deployed.
       name: prd
       url: 'http://${{ env.prod_url }}'
@@ -228,6 +232,10 @@ jobs:
       - name: Install Ansible
         run: pip install ansible
 
-      - name: Run Ansible playbook
-        run: |
-          echo "Deploy"
+      - name: Deploy application on production server 1
+        run: ansible-playbook -i hosts.yml deploy-production.yml -e "run_on_host=prod_server_1 production_server=152.7.177.223 docker_user=$DOCKER_USER docker_password=$DOCKER_PASSWORD image_version=$IMAGE_VERSION"
+        working-directory: ./playbooks
+        
+      - name: Deploy application on production server 2
+        run: ansible-playbook -i hosts.yml deploy-production.yml -e "run_on_host=prod_server_2 production_server=152.7.179.1 docker_user=$DOCKER_USER docker_password=$DOCKER_PASSWORD image_version=$IMAGE_VERSION"
+        working-directory: ./playbooks
