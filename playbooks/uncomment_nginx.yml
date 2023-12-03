@@ -2,20 +2,26 @@
 - name: Revert NGINX Configuration
   hosts: load_balancer_server 
   become: true
-
+  become_method: sudo
   vars:
     target_ip: "{{ server_ip }}"
 
   tasks:
     - name: Uncomment the server line with specific IP
       lineinfile:
-        path: /etc/nginx/nginx.conf
+        path: /etc/nginx/sites-available/default
         regexp: '^(\s*# server\s+{{ target_ip }}:3000;)'
         line: 'server {{ target_ip }}:3000;'
       register: uncomment_result
 
-    - name: Reload NGINX if changes were made
+    - name: Create a symbolic link to enable the site
+      file:
+        src: /etc/nginx/sites-available/default
+        dest: /etc/nginx/sites-enabled/default
+        state: link
+
+    - name: Restart nginx service
       service:
         name: nginx
-        state: reloaded
-      when: uncomment_result.changed
+        enabled: true
+        state: restarted
