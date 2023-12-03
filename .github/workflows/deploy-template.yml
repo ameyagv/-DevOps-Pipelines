@@ -48,7 +48,7 @@ jobs:
         run: pip install ansible
   
       - name: Setup Docker
-        run: ansible-playbook -i ./playbooks/hosts.yml -l ${{ env.host_group }} ./playbooks/setup-docker.yml
+        run: ansible-playbook -i ./playbooks/hosts.yml -l ${{ env.host_group }} -e "run_on_host=${{ env.host_group }}" ./playbooks/setup-docker.yml
 
       - name: Deploy coffee project using Ansible
         run: ansible-playbook -i ./playbooks/hosts.yml -l ${{ env.host_group }} -e "run_on_host=${{ env.host_group }} docker_user=$DOCKER_USER docker_password=$DOCKER_PASSWORD image_version=${{ env.image_tag }}" ./playbooks/deploy-application.yml
