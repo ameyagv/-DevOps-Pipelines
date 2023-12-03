@@ -1,17 +1,17 @@
 ---
-- name: Production Deployment
-  hosts: "{{ run_on_host }}"
-  become: yes
-  become_method: sudo
+# - name: Production Deployment
+#   hosts: "{{ run_on_host }}"
+#   become: yes
+#   become_method: sudo
 
 - name: Remove production server from NGINX configuration
-  include_playbook: comment_nginx.yml
+  import_playbook: comment_nginx.yml
   vars: 
     run_on_host: "load_balancer_server"
     server_ip: "{{ production_server }}"
 
 - name: Deploy Application to prod_1 server
-  include_playbook: deploy-application.yml
+  import_playbook: deploy-application.yml
   vars:
     run_on_host: "{{ production_server }}"
     docker_user: "{{ docker_user }}"
@@ -19,7 +19,7 @@
     image_version: "{{ image_version }}"
 
 - name: Add production server to NGINX configuration
-  include_playbook: uncomment_nginx.yml
+  import_playbook: uncomment_nginx.yml
   vars: 
     run_on_host: "load_balancer_server"
     server_ip: "{{ production_server }}"
