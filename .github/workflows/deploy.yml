@@ -83,7 +83,7 @@ jobs:
 
   security-tests:
     needs: [deploy-qa]
-    runs-on: [ self-hosted ]
+    runs-on: [ security ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
