@@ -1,11 +1,10 @@
 name: Production Blue Green Deployment
 on:
   workflow_dispatch:
-    secrets:
-      PUBLIC_REPO_USERNAME:
-        required: true
-      PUBLIC_REPO_PASSWORD:
-        required: true
+    inputs:
+      image:
+        required: false
+        default: "latest"
 
 jobs:
   deploy_prod_server_1:
@@ -14,6 +13,7 @@ jobs:
     env:
       DOCKER_USER: ${{ secrets.PUBLIC_REPO_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.PUBLIC_REPO_PASSWORD }}
+      IMAGE_VERSION: ${{ github.event.inputs.image || 'latest' }}
     steps:
       - name: Checkout Repository 
         uses: actions/checkout@v3
@@ -34,11 +34,11 @@ jobs:
       - name: Deploy application on production server 1
         env:
           ANSIBLE_HOST_KEY_CHECKING: false
-        run: ansible-playbook -i ./playbooks/hosts.yml -e "run_on_host=dev_server production_server=152.7.177.223 docker_user=$DOCKER_USER docker_password=$DOCKER_PASSWORD" ./playbooks/deploy-production.yml
+        run: ansible-playbook -i ./playbooks/hosts.yml -e "run_on_host=dev_server production_server=152.7.177.223 docker_user=$DOCKER_USER docker_password=$DOCKER_PASSWORD image_version=$IMAGE_VERSION" ./playbooks/deploy-production.yml
       
       - name: Deploy application on production server 2
         env:
           ANSIBLE_HOST_KEY_CHECKING: false
-        run: ansible-playbook -i ./playbooks/hosts.yml -e "run_on_host=dev_server production_server=152.7.179.1 docker_user=$DOCKER_USER docker_password=$DOCKER_PASSWORD" ./playbooks/deploy-production.yml
+        run: ansible-playbook -i ./playbooks/hosts.yml -e "run_on_host=dev_server production_server=152.7.179.1 docker_user=$DOCKER_USER docker_password=$DOCKER_PASSWORD iamge_version=$IMAGE_VERSION" ./playbooks/deploy-production.yml
 
       
