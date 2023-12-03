@@ -223,6 +223,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        
+      - name: Set Environment Variables - prd # Set Variables based on environment
+        uses: ./.github/actions/set-variable
+        with:
+          variableFileName: "prd"
 
       - name: Set up Python
         uses: actions/setup-python@v2
