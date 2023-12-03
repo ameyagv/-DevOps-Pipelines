@@ -32,10 +32,8 @@ jobs:
         run: pip install ansible
   
       - name: Deploy application on production server 1
-        env:
-          ANSIBLE_HOST_KEY_CHECKING: false
-        run: ansible-playbook -i ./playbooks/hosts.yml ./playbooks/deploy-production.yml -e "run_on_host=prod_server_1 production_server=152.7.177.223 docker_user=$DOCKER_USER docker_password=$DOCKER_PASSWORD image_version=$IMAGE_VERSION"
-      
+        run: ansible-playbook -i hosts.yml deploy-production.yml -e "run_on_host=prod_server_1 production_server=152.7.177.223 docker_user=$DOCKER_USER docker_password=$DOCKER_PASSWORD image_version=$IMAGE_VERSION"
+        working-directory: ./playbooks
       - name: Deploy application on production server 2
         env:
           ANSIBLE_HOST_KEY_CHECKING: false
