@@ -1,6 +1,6 @@
 ---
 - name: Revert NGINX Configuration
-  hosts: "{{ run_on_host }}"  
+  hosts: load_balancer_server 
   become: true
 
   vars:
