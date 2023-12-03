@@ -49,7 +49,7 @@ jobs:
     needs: build
     # Check if not pull request
     if: github.event_name != 'pull_request'
-    runs-on: [ self-hosted ]
+    runs-on: [ security ]
     env:
       # Set the tag to the image tag input if it is not empty or latest
       DOCKER_IMAGE_TAG: ${{ github.event.inputs.image_tag || 'latest' }}
